@@ -36,11 +36,11 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 | Lectures & Sheets | Practice Zone |
 |:-----------------:|:-------------:|
-| ![Lectures View](docs/screenshots/lectures_view.png) | ![Practice Zone](docs/screenshots/practice_zone.png) |
+| ![Lectures View](https://raw.githubusercontent.com/4awmy/computer-graphics-portal/main/docs/screenshots/lectures_view.png) | ![Practice Zone](https://raw.githubusercontent.com/4awmy/computer-graphics-portal/main/docs/screenshots/practice_zone.png) |
 
 | AI Tutor |
 |:--------:|
-| ![AI Tutor](docs/screenshots/ai_tutor.png) |
+| ![AI Tutor](https://raw.githubusercontent.com/4awmy/computer-graphics-portal/main/docs/screenshots/ai_tutor.png) |
 
 </div>
 
