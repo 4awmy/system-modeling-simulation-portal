@@ -1,8 +1,6 @@
 <div align="center">
 
-# 📐# AAST Computer Graphics Portal
-
-_Deployment triggered at 2026-05-22T19:22:55+03:00_
+# 📐 AAST Computer Graphics Portal
 
 ### Interactive Learning Portal for Dr. Gouda Ismail's Computer Graphics Course
 
@@ -29,6 +27,22 @@ The **AAST Computer Graphics Portal** is a full-featured, interactive web applic
 The portal features a **password-protected Instructor Dashboard** that allows the course instructor to edit announcements, lecture content, and exercises directly from the UI in local development, with changes pushed to GitHub via a built-in Git sync workflow.
 
 > 🌐 **Live Site:** [https://4awmy.github.io/computer-graphics-portal/](https://4awmy.github.io/computer-graphics-portal/)
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+| Lectures & Sheets | Practice Zone |
+|:-----------------:|:-------------:|
+| ![Lectures View](docs/screenshots/lectures_view.png) | ![Practice Zone](docs/screenshots/practice_zone.png) |
+
+| AI Tutor |
+|:--------:|
+| ![AI Tutor](docs/screenshots/ai_tutor.png) |
+
+</div>
 
 ---
 
@@ -218,6 +232,9 @@ portal/
 │       ├── lectures.json         # Lecture content & metadata
 │       ├── exercises.json        # Practice zone exercises
 │       └── announcements.json   # Course announcements
+│
+├── docs/
+│   └── screenshots/             # Portal screenshots
 │
 ├── .github/
 │   └── workflows/
