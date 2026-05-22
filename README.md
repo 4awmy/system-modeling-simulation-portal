@@ -1,71 +1,92 @@
-# ClassroomX‑Style Learning Portal
+# AAST Computer Graphics Portal
 
-![Instructor Dashboard](file:///C:/Users/omarh/.gemini/antigravity-cli/brain/de1d9432-c501-497e-ba89-c572b7d1105c/instructor_dashboard_mockup_1779463962442.png)
+_Deployed at: 2026-05-22T19:14:50+03:00_
 
-A **premium, interactive web portal** for Dr. Gouda Ismail’s *Computer Graphics* course at the Arab Academy for Science and Technology (AAST). The UI follows the modern *ClassroomX* aesthetic – dark glass‑morphism, vibrant gradients, and smooth micro‑animations – giving students a sleek, immersive learning experience.
+A professional, interactive web portal for Dr. Gouda Ismail's *Computer Graphics* course at the **Arab Academy for Science, Technology and Maritime Transport (AAST)**. Built with React, TypeScript, Vite, and Tailwind CSS.
 
----
-
-## 📚 Overview
-
-- **Lectures & Sheets** – Browse weeks 1‑11 slides and Sheets I‑IV with concise summaries and formula tables.
-- **Algorithm Visualizers** – Interactive demos for line drawing (DDA/Bresenham), circle/ellipse midpoint algorithms, and region‑filling (boundary & flood fill) with live recursion stack traces.
-- **Practice Zone** – Socratic helper validates trace‑table entries cell‑by‑cell, offering adaptive hints.
-- **AI Tutor** – Simulated chatbot explains concepts and guides problem‑solving.
-- **Instructor Dashboard** – Password‑protected (`aast2026`) admin panel to edit announcements, lecture outlines, and exercises.
+> **Live site:** [https://4awmy.github.io/computer-graphics-portal/](https://4awmy.github.io/computer-graphics-portal/)
 
 ---
 
-## 🚀 Getting Started (Local Development)
+## Features
+
+| Section | Description |
+|---|---|
+| **Lectures & Sheets** | Browse Weeks 1–11 slides and Sheets I–IV with summaries and formula references |
+| **Algorithm Visualizers** | Step-through demos for DDA/Bresenham line drawing, midpoint circle/ellipse, and boundary/flood fill with recursion stack traces |
+| **Practice Zone** | Socratic helper that validates trace-table entries cell-by-cell with adaptive hints |
+| **AI Tutor** | Floating chatbot that explains concepts and guides problem-solving |
+| **Instructor Dashboard** | Password-protected admin panel to edit announcements, lecture outlines, and exercises |
+
+---
+
+## Getting Started
 
 ```bash
-# Clone the repo (you already have it locally)
-cd "C:/Users/omarh/OneDrive/Desktop/Uni/Computer Graphics/portal"
+# 1. Enter the portal directory
+cd portal
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Run the dev server
+# 3. Start the development server
 npm run dev
 ```
 
-Open <http://localhost:5173> in your browser. The instructor dashboard lets you edit the JSON data files in `src/data/` directly from the UI.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+> **Note:** The Instructor Dashboard's "Save to disk" and "Git Sync" features rely on Vite dev-server middleware (`/api/save`, `/api/git-sync`) and are only available in local development. On the deployed GitHub Pages site, changes persist in the browser's `localStorage` only.
 
 ---
 
-## 📦 Production Build & GitHub Pages Deployment
+## Deployment (GitHub Pages)
 
-The repository ships with a **GitHub Actions** workflow (`.github/workflows/deploy.yml`) that builds the Vite app and publishes it to GitHub Pages.
+The repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` that automatically builds and publishes the site on every push to `main`.
 
-### One‑time Pages setup
-1. Navigate to **Settings → Pages** in the GitHub UI.
+### One-time setup
+
+1. Go to **Settings → Pages** in your GitHub repository.
 2. Under **Build and deployment**, select **GitHub Actions**.
-3. Click **Save**. The workflow will automatically publish from the `main` branch.
-
-> The live site will be available at `https://4awmy.github.io/computer-graphics-portal/` after the workflow completes.
+3. Click **Save** — the workflow will handle the rest.
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 portal/
-├─ public/                # static assets (favicon, icons)
-├─ src/                   # React source code
-│   ├─ components/        # UI components (InstructorDashboard, etc.)
-│   └─ data/              # JSON files for lectures, exercises, announcements
-├─ .github/workflows/    # GitHub Actions CI/CD pipeline
-└─ vite.config.ts        # Vite config with middleware APIs
+├── public/                  # Static assets (favicon, icons)
+├── src/
+│   ├── components/          # React UI components
+│   │   ├── Navigation.tsx
+│   │   ├── LecturesView.tsx
+│   │   ├── PracticeZone.tsx
+│   │   ├── Demos.tsx        # Algorithm visualizers
+│   │   ├── AITutorSim.tsx
+│   │   └── InstructorDashboard.tsx
+│   └── data/                # JSON content (lectures, exercises, announcements)
+├── .github/workflows/       # CI/CD pipeline
+└── vite.config.ts           # Vite config + dev-server API middleware
 ```
 
 ---
 
-## 🤝 Contributing
+## Tech Stack
 
-Feel free to fork, open pull requests, or suggest improvements. The stack uses **TypeScript**, **React**, **Vite**, **Tailwind CSS**, and **shadcn/ui** for a modern, premium UI.
+- **React 18** + **TypeScript**
+- **Vite** (build tool + dev middleware)
+- **Tailwind CSS** + **shadcn/ui**
+- **Lucide React** (icons)
+- **GitHub Actions** (CI/CD to GitHub Pages)
 
 ---
 
-## 📄 License
+## Instructor Access
 
-MIT License – see `LICENSE` for details.
+The dashboard is protected by a password. The default credential is set in the source and should be changed before sharing the portal publicly.
+
+---
+
+## License
+
+MIT License — see `LICENSE` for details.
