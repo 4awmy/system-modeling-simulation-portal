@@ -1,0 +1,23 @@
+[
+  {
+    "id": "ann_1",
+    "date": "2026-05-20",
+    "title": "Welcome to AAST Computer Graphics Portal",
+    "content": "This website is designed to help you interactively understand computer graphics algorithms. You can view course slides, practice tracing algorithms step-by-step, and simulate graphics rendering dynamically. Good luck!",
+    "pinned": true
+  },
+  {
+    "id": "ann_2",
+    "date": "2026-05-18",
+    "title": "7th Week Exam Scope & Format",
+    "content": "The midterm exam will cover Lectures 1 to 5 (up to Midpoint Circle Drawing). Expect coordinate-tracing questions for Bresenham's line and Midpoint circle, as well as conceptual questions on display hardware and filling algorithms (Boundary and Flood Fill). Use the Practice Zone to verify your tracing calculations!",
+    "pinned": false
+  },
+  {
+    "id": "ann_3",
+    "date": "2026-05-15",
+    "title": "Laboratory & Sheet IV Uploaded",
+    "content": "Sheet IV - Region Filling is now available under the Lectures/Sheets tab. We encourage you to test the 4-connected vs 8-connected fill types in the Interactive Visualizer to see how boundary leakages occur in diagonal lines.",
+    "pinned": false
+  }
+]
