@@ -1,20 +1,19 @@
 <div align="center">
 
-# 📐 AAST Computer Graphics Portal
+# 📐 AAST System Modeling & Simulation Portal
 
-### Interactive Learning Portal for Dr. Gouda Ismail's Computer Graphics Course
+### Interactive Learning Portal for Dr. Gouda Ismail's System Modeling & Simulation Course
 
 *Built for the Arab Academy for Science, Technology & Maritime Transport (AAST)*
 
 ---
 
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-Latest-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Components-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-181717?style=for-the-badge&logo=github&logoColor=white)](https://4awmy.github.io/computer-graphics-portal/)
-[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Portal-success?style=for-the-badge)](https://4awmy.github.io/computer-graphics-portal/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-181717?style=for-the-badge&logo=github&logoColor=white)](https://4awmy.github.io/system-modeling-simulation-portal/)
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Portal-success?style=for-the-badge)](https://4awmy.github.io/system-modeling-simulation-portal/)
 
 </div>
 
@@ -22,27 +21,19 @@
 
 ## 📖 About
 
-The **AAST Computer Graphics Portal** is a full-featured, interactive web application designed to support students throughout Dr. Gouda Ismail's Computer Graphics course. It combines structured lecture content with hands-on algorithm visualizers, an adaptive practice zone, and a floating AI tutor — all in a single, unified interface.
+The **AAST System Modeling & Simulation Learning Portal** is a comprehensive, interactive educational platform designed to support college students throughout Dr. Gouda Ismail's System Modeling & Simulation course. It integrates complete word-for-word course curriculum readings (Weeks 1-13) with interactive simulation labs, step-by-step trace tables, solved practice problems, and an active AI teaching assistant.
 
-The portal features a **password-protected Instructor Dashboard** that allows the course instructor to edit announcements, lecture content, and exercises directly from the UI in local development, with changes pushed to GitHub via a built-in Git sync workflow.
+The portal features a **password-protected Instructor Dashboard** that allows the instructor to publish announcements, customize syllabus details, modify exercises, and trigger Git commits directly from the browser during local development.
 
-> 🌐 **Live Site:** [https://4awmy.github.io/computer-graphics-portal/](https://4awmy.github.io/computer-graphics-portal/)
+> 🌐 **Live Deployed Site:** [https://4awmy.github.io/system-modeling-simulation-portal/](https://4awmy.github.io/system-modeling-simulation-portal/)
 
 ---
 
-## 📸 Screenshots
+## 📸 Portal Interface
 
-<div align="center">
-
-| Lectures & Sheets | Practice Zone |
-|:-----------------:|:-------------:|
-| ![Lectures View](https://raw.githubusercontent.com/4awmy/computer-graphics-portal/main/docs/screenshots/lectures_view.png) | ![Practice Zone](https://raw.githubusercontent.com/4awmy/computer-graphics-portal/main/docs/screenshots/practice_zone.png) |
-
-| AI Tutor |
-|:--------:|
-| ![AI Tutor](https://raw.githubusercontent.com/4awmy/computer-graphics-portal/main/docs/screenshots/ai_tutor.png) |
-
-</div>
+*   **Lectures & Reading Rooms**: Access verified, word-for-word slide materials, key definitions, and academic warnings (e.g. lead time alignment, blocking vs starving rules).
+*   **Practice Zone**: Work out manual trace tables for single-server queues, inventory policies, and discrete random number mappings with cell-by-cell validation.
+*   **RNG & DES Playgrounds**: Advance simulation clocks, seed congruential generators, and watch Monte Carlo empirical rates converge in real-time.
 
 ---
 
@@ -52,23 +43,25 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 | Feature | Description |
 |---------|-------------|
-| **Weekly Slides** | Browse Weeks 1–11 lecture slides with inline PDF viewer |
-| **Practice Sheets** | Access Sheets I–IV with concise summaries and formula tables |
-| **Announcements** | Course-wide announcements pinned at the top of the view |
-| **Quick Navigation** | Jump directly from a lecture to its associated practice exercise |
+| **Weekly Slides** | Complete Weeks 1–13 textbook and slide reading transcripts |
+| **Outcomes & Targets** | Concise learning objectives card matrix for each week |
+| **Warnings & Constraints** | Inline banners highlights for common trace pitfalls (such as off-by-one departures) |
+| **Solved Problems** | Accordion system containing step-by-step math computation and answers |
 
 ---
 
-### 🖥️ Algorithm Visualizers
+### 🖥️ Simulation Visualizers & Laboratories
 
-| Algorithm | Description |
-|-----------|-------------|
-| **DDA Line Drawing** | Step-through Digital Differential Analyzer rasterization |
-| **Bresenham's Line** | Integer-only Bresenham line algorithm with decision variable trace |
-| **Midpoint Circle** | Midpoint algorithm for circle rasterization |
-| **Midpoint Ellipse** | Two-region midpoint ellipse algorithm |
-| **Boundary Fill** | Recursive boundary-fill with live recursion stack trace |
-| **Flood Fill** | 4-connected flood fill with live recursion stack trace |
+| Lab Playground | Description |
+|----------------|-------------|
+| **LCG Generator** | Linear Congruential generator testing Hull-Dobell period conditions |
+| **Mid-Square Generator** | 4-digit seed RNG highlighting middle square selection and degeneration collapses |
+| **Monte Carlo coin & demand** | Empirical relative frequency convergence visualizer (Law of Large Numbers) |
+| **Single-Server Queue (M/M/1)** | Step-by-step trace showing arrival, start, waiting, departure, and utilization |
+| **Inventory Replenishment (RP, Q)** | Trace logs mapping lead times, daily demand, order releases, and stock levels |
+| **Two-Stage Assembly Line** | Tandem Bob & Ray process flow demonstrating queue starvation and blocking states |
+| **Repairman Queuing** | Finite machine breakdown loop comparing cost-benefit tradeoffs for 1 vs 2 repairmen |
+| **Clock Scan Mechanics** | Compare event scan priority lists vs periodic scans side-by-side |
 
 ---
 
@@ -76,10 +69,9 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 | Feature | Description |
 |---------|-------------|
-| **Trace Table Exercises** | Step-through exercises where students fill in algorithm trace tables |
-| **Cell-by-Cell Validation** | Socratic feedback that validates each cell individually |
-| **Adaptive Hints** | Progressive hints that guide without giving away the answer |
-| **Exercise Navigation** | Browse the full exercise library or jump directly from a lecture |
+| **Trace Table Exercises** | Fill-in-the-blank exercises where students complete simulation trace tables |
+| **Socratic Validation** | Instant cell-by-cell checks that correct students as they calculate |
+| **Interactive Hints** | Adaptive tips pointing to underlying formulas instead of direct solutions |
 
 ---
 
@@ -87,9 +79,8 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 | Feature | Description |
 |---------|-------------|
-| **Floating Chat Interface** | Always-accessible AI tutor widget that doesn't interrupt navigation |
-| **Concept Explanations** | Explains rasterization, scan conversion, and filling concepts |
-| **Problem Guidance** | Walks through algorithm steps without solving directly |
+| **Floating Sidebar Chat** | Non-disruptive chatbot widget available on all views |
+| **Concept Explanations** | Explains simulation structures, distributions, and steady-states |
 
 ---
 
@@ -97,13 +88,9 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 | Feature | Description |
 |---------|-------------|
-| **Announcement Editor** | Add, edit, and remove course announcements |
-| **Lecture Outline Editor** | Update lecture titles, summaries, and linked resources |
-| **Exercise Editor** | Create and modify practice zone exercises and answer keys |
-| **Save to Disk** | Writes changes directly to `src/data/` JSON files (dev mode only) |
-| **Git Sync** | Commits and pushes changes to GitHub with a custom commit message |
-
-> **Note:** Save to Disk and Git Sync use Vite dev-server middleware and are only available in local development. On the deployed GitHub Pages site, all edits persist in the browser's `localStorage`.
+| **Announcement Editor** | Pin, post, and remove syllabus announcements |
+| **Database Editor** | Live edit exercises, lectures, and schemas |
+| **Git Push Sync** | Local middleware that writes updates to disk and commits to Git |
 
 ---
 
@@ -113,15 +100,15 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 ┌──────────────────────────────────────────────────────────┐
 │                      React SPA (Vite)                    │
 │                                                          │
-│  ┌─────────────────┐   ┌──────────────┐                 │
-│  │  LecturesView   │   │  PracticeZone│                 │
-│  │  (Slides, PDFs) │   │  (Exercises) │                 │
-│  └─────────────────┘   └──────────────┘                 │
+│  ┌─────────────────────────┐   ┌──────────────┐          │
+│  │  EnhancedCurriculumView  │   │  PracticeZone│          │
+│  │  (Weeks 1-13 Readings)  │   │  (Exercises) │          │
+│  └─────────────────────────┘   └──────────────┘          │
 │                                                          │
-│  ┌─────────────────┐   ┌──────────────────────────────┐ │
-│  │  Demos          │   │  InstructorDashboard          │ │
-│  │  (Visualizers)  │   │  (Password-protected editor)  │ │
-│  └─────────────────┘   └──────────────────────────────┘ │
+│  ┌─────────────────────────┐   ┌──────────────────────┐  │
+│  │  CurriculumDemoWrapper  │   │  InstructorDashboard │  │
+│  │  (Interactive Labs/DES) │   │  (Protected Editor)  │  │
+│  └─────────────────────────┘   └──────────────────────┘  │
 │                                                          │
 │  ┌──────────────────────────────────────────────────┐   │
 │  │  AITutorSim — Floating global chatbot widget     │   │
@@ -131,10 +118,10 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 └──────────────────────────────────────────────────────────┘
                           │
           ┌───────────────▼───────────────┐
-          │  src/data/ (JSON)             │
-          │  lectures.json                │
-          │  exercises.json               │
-          │  announcements.json           │
+          │  src/data/ (JSON & TS)        │
+          │  curriculum-enhanced-w1.ts    │
+          │  curriculum-enhanced-w2-w13.ts│
+          │  lectures-enhanced.ts         │
           └───────────────────────────────┘
                           │
           ┌───────────────▼───────────────┐
@@ -148,17 +135,12 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Framework** | React 18 | Component-based UI |
-| **Language** | TypeScript 5 | Type-safe development |
-| **Build Tool** | Vite | Fast dev server + production build |
-| **Styling** | Tailwind CSS 3 | Utility-first CSS |
-| **UI Components** | shadcn/ui | Accessible, composable primitives |
-| **Icons** | Lucide React | Consistent icon set |
-| **Data** | JSON files | Static content database |
-| **Persistence** | localStorage | Client-side state between sessions |
-| **Deployment** | GitHub Actions + GitHub Pages | Automated CI/CD |
+*   **Framework**: React 19
+*   **Language**: TypeScript 6
+*   **Build Tool**: Vite 8
+*   **Styling**: Tailwind CSS 4 + custom glassmorphic utilities
+*   **Icons**: Lucide React
+*   **Deployment**: GitHub Actions + GitHub Pages CI/CD pipeline
 
 ---
 
@@ -166,14 +148,14 @@ The portal features a **password-protected Instructor Dashboard** that allows th
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
+*   Node.js 20+
+*   npm
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/4awmy/computer-graphics-portal.git
-cd computer-graphics-portal/portal
+git clone https://github.com/4awmy/system-modeling-simulation-portal.git
+cd system-modeling-simulation-portal
 ```
 
 ### 2. Install Dependencies
@@ -196,54 +178,18 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 npm run build
 ```
 
-Output goes to `dist/` — ready to serve as a static site.
+Output bundle goes to `dist/` — ready to deploy.
 
 ---
 
 ## 🌐 Deployment (GitHub Pages)
 
-The repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml` that automatically builds and publishes the site on every push to `main`.
+The repository includes a GitHub Actions pipeline at `.github/workflows/deploy.yml` that automatically builds and deploys the site to GitHub Pages on every push to the `main` branch.
 
-### One-time setup
-
-1. Go to **Settings → Pages** in your GitHub repository.
-2. Under **Build and deployment**, select **GitHub Actions**.
-3. Click **Save** — the workflow will deploy automatically.
-
----
-
-## 📁 Project Structure
-
-```
-portal/
-│
-├── public/                      # Static assets (favicon, icons)
-│
-├── src/
-│   ├── components/
-│   │   ├── Navigation.tsx        # Top navigation bar
-│   │   ├── LecturesView.tsx      # Lectures & Sheets tab
-│   │   ├── PracticeZone.tsx      # Practice exercises tab
-│   │   ├── Demos.tsx             # Algorithm visualizers
-│   │   ├── AITutorSim.tsx        # Floating AI tutor widget
-│   │   └── InstructorDashboard.tsx  # Password-protected editor
-│   │
-│   └── data/
-│       ├── lectures.json         # Lecture content & metadata
-│       ├── exercises.json        # Practice zone exercises
-│       └── announcements.json   # Course announcements
-│
-├── docs/
-│   └── screenshots/             # Portal screenshots
-│
-├── .github/
-│   └── workflows/
-│       └── deploy.yml            # GitHub Pages CI/CD pipeline
-│
-├── vite.config.ts                # Vite config + dev-server API middleware
-├── tailwind.config.ts
-└── package.json
-```
+### Quick Setup:
+1.  Go to **Settings → Pages** in your new repository.
+2.  Set **Build and deployment → Source** to **GitHub Actions**.
+3.  Any push to `main` will build and publish the site.
 
 ---
 
@@ -259,18 +205,9 @@ portal/
 
 **🏛️ Arab Academy for Science, Technology & Maritime Transport (AAST)**
 **College of Computing and Information Technology**
-**Dr. Gouda Ismail — Computer Graphics**
+**Dr. Gouda Ismail — System Modeling & Simulation**
 
 </div>
-
----
-
-## 🔗 Links
-
-| Resource | URL |
-|----------|-----|
-| 🌐 Live Portal | [4awmy.github.io/computer-graphics-portal](https://4awmy.github.io/computer-graphics-portal/) |
-| 📦 GitHub Repository | [github.com/4awmy/computer-graphics-portal](https://github.com/4awmy/computer-graphics-portal) |
 
 ---
 

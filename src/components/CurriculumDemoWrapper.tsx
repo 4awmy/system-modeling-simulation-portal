@@ -22,7 +22,6 @@ interface CurriculumDemoWrapperProps {
 }
 
 export const CurriculumDemoWrapper: React.FC<CurriculumDemoWrapperProps> = ({
-  demoComponent,
   demoScenario,
   weekId = '',
 }) => {
