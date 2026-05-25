@@ -1,0 +1,119 @@
+[
+  {
+    "id": "w2",
+    "type": "rn_mapping",
+    "title": "RN Interval Mapping (Demand)",
+    "description": "Fill the trace table using mapping 00-09=>0, 10-59=>1, 60-99=>2.",
+    "hint": "Map each RN to its cumulative interval before writing the demand result.",
+    "columns": [
+      { "key": "rn", "label": "RN (00-99)" },
+      { "key": "interval", "label": "Interval" },
+      { "key": "outcome", "label": "Demand" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "rn": 8, "interval": "00-09", "outcome": 0 } },
+      { "step": 2, "values": { "rn": 42, "interval": "10-59", "outcome": 1 } },
+      { "step": 3, "values": { "rn": 90, "interval": "60-99", "outcome": 2 } }
+    ]
+  },
+  {
+    "id": "w3",
+    "type": "monte_carlo",
+    "title": "Monte Carlo Coin Trace",
+    "description": "Use RN<0.5 => Head, otherwise Tail.",
+    "hint": "Convert each RN to H/T and count totals.",
+    "columns": [
+      { "key": "rn", "label": "RN" },
+      { "key": "result", "label": "Result" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "rn": 0.24, "result": "Head" } },
+      { "step": 2, "values": { "rn": 0.67, "result": "Tail" } },
+      { "step": 3, "values": { "rn": 0.49, "result": "Head" } }
+    ]
+  },
+  {
+    "id": "w5",
+    "type": "multi_stage",
+    "title": "Multi-Stage Insurance Trace",
+    "description": "Stage1: RN1<=49 => Interested. Stage2 if interested: 00-59 No Sale, 60-79 Small, 80-99 Large.",
+    "hint": "Do not execute stage 2 when stage 1 says not interested.",
+    "columns": [
+      { "key": "rn1", "label": "RN1 Interest" },
+      { "key": "stage1", "label": "Stage 1" },
+      { "key": "rn2", "label": "RN2 Type" },
+      { "key": "final", "label": "Final Outcome" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "rn1": 30, "stage1": "Interested", "rn2": 85, "final": "Large Policy" } },
+      { "step": 2, "values": { "rn1": 70, "stage1": "Not Interested", "rn2": "-", "final": "No Interest" } }
+    ]
+  },
+  {
+    "id": "w6",
+    "type": "time_event_scan",
+    "title": "Periodic vs Event Scan Timeline",
+    "description": "Arrival at t=3 and departure at t=8.",
+    "hint": "Periodic checks every tick; event scan checks only event times.",
+    "columns": [
+      { "key": "method", "label": "Method" },
+      { "key": "checks", "label": "Check Times" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "method": "Periodic", "checks": "0,1,2,3,4,5,6,7,8" } },
+      { "step": 2, "values": { "method": "Event", "checks": "3,8" } }
+    ]
+  },
+  {
+    "id": "w7",
+    "type": "queue_trace",
+    "title": "Queue Waiting Trace",
+    "description": "Fill queue start/depart/wait values.",
+    "hint": "Start time is max(arrival, previous departure).",
+    "columns": [
+      { "key": "arrival", "label": "Arrival" },
+      { "key": "start", "label": "Start" },
+      { "key": "depart", "label": "Depart" },
+      { "key": "wait", "label": "Wait" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "arrival": 1, "start": 1, "depart": 4, "wait": 0 } },
+      { "step": 2, "values": { "arrival": 2, "start": 4, "depart": 6, "wait": 2 } }
+    ]
+  },
+  {
+    "id": "w9",
+    "type": "inventory_trace",
+    "title": "Inventory Lead-Time Trace",
+    "description": "Track stock and order trigger under reorder point rule.",
+    "hint": "Trigger an order when stock <= reorder point and no pending order exists.",
+    "columns": [
+      { "key": "demand", "label": "Demand" },
+      { "key": "stock_after", "label": "Stock After Demand" },
+      { "key": "order", "label": "Order Action" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "demand": 2, "stock_after": 10, "order": "None" } },
+      { "step": 2, "values": { "demand": 3, "stock_after": 7, "order": "None" } },
+      { "step": 3, "values": { "demand": 4, "stock_after": 3, "order": "Place Order" } }
+    ]
+  },
+  {
+    "id": "w8",
+    "type": "validation",
+    "title": "Chi-Square Table Build",
+    "description": "Compute each (Oi-Ei)^2/Ei term.",
+    "hint": "Fill term-by-term before summing total X^2.",
+    "columns": [
+      { "key": "oi", "label": "Oi" },
+      { "key": "ei", "label": "Ei" },
+      { "key": "term", "label": "(Oi-Ei)^2/Ei" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "oi": 12, "ei": 15, "term": 0.6 } },
+      { "step": 2, "values": { "oi": 18, "ei": 15, "term": 0.6 } },
+      { "step": 3, "values": { "oi": 20, "ei": 15, "term": 1.6667 } },
+      { "step": 4, "values": { "oi": 10, "ei": 15, "term": 1.6667 } }
+    ]
+  }
+]

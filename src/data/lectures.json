@@ -1,0 +1,893 @@
+[
+  {
+    "id": "w1",
+    "week": "Week 01",
+    "title": "Simulation Foundations: Systems, States, and Terminology",
+    "description": "Canonical foundations from curriculum: system concepts, state variables, events/activities, and simulation methodology phases.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Lectures/Week%2001%20-%20Jerry%20Banks%2C%20John%20S.%20Carson%20II%2C%20Barry%20L.%20Nelson%2C%20David%20M.%20Nicol%20-%20Discrete-Event%20System%20Simulation-Pearson%20%282013%29.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2001/sim%20week%201%20sec%20.pptx"
+    ],
+    "concepts": [
+      "System definition",
+      "State variables",
+      "Entity-Activity-Event",
+      "Deterministic vs stochastic",
+      "Planning-Modeling-Validation-Application"
+    ],
+    "keyDetails": [
+      {
+        "title": "Curriculum anchor",
+        "content": "Curriclum.docx syllabus and introduction define system/state terminology and the four problem-solving phases used through the semester."
+      },
+      {
+        "title": "Week 01 section support",
+        "content": "Week 01 section slides reinforce foundational definitions before probability and queueing applications begin."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w1_p1",
+        "title": "Classify a system by behavior",
+        "statement": "Classify an ATM service desk as natural/man-made, deterministic/stochastic, and discrete/continuous.",
+        "method": "System classification checklist",
+        "steps": [
+          "Identify origin: ATM is engineered by humans => man-made.",
+          "Check uncertainty: arrivals/service durations vary => stochastic.",
+          "Check state changes: queue length changes at events => discrete."
+        ],
+        "finalAnswer": "ATM desk is man-made, stochastic, and discrete."
+      },
+      {
+        "id": "w1_p2",
+        "title": "State vector definition for single server",
+        "statement": "Define the minimal state for a one-server queue with FCFS service.",
+        "method": "Minimal-state abstraction",
+        "steps": [
+          "Track server status (idle/busy).",
+          "Track number of customers waiting in queue.",
+          "Use arrivals/departures as event triggers updating these states."
+        ],
+        "finalAnswer": "Minimal state is (server status, queue length)."
+      },
+      {
+        "id": "w1_p3",
+        "title": "Activity versus event distinction",
+        "statement": "In a machine-shop model, classify service time and machine breakdown as activity or event.",
+        "method": "Definition-based classification",
+        "steps": [
+          "Activity has duration; event is instantaneous.",
+          "Service process lasts over time => activity.",
+          "Breakdown occurrence changes state at an instant => event."
+        ],
+        "finalAnswer": "Service time is an activity; breakdown occurrence is an event."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Lectures/Curriclum.docx",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Lectures/Curriclum.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session1_Foundations/Session1_Foundations.md"
+    ]
+  },
+  {
+    "id": "w2",
+    "week": "Week 02",
+    "title": "Random Number Mapping for Discrete Outcomes",
+    "description": "Build cumulative-probability intervals and map random numbers (00-99) to outcomes for manual simulation traces.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2002/Simulation%20week%202%20sec.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2002/Simulation%20week%202%20sec.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session1_Foundations/Session1_Foundations.md"
+    ],
+    "concepts": [
+      "Cumulative probability",
+      "RN interval mapping",
+      "Discrete demand simulation",
+      "Trace-table setup"
+    ],
+    "keyDetails": [
+      {
+        "title": "Mapping rule",
+        "content": "Use cumulative intervals so each RN falls in exactly one outcome range (e.g., 00-09, 10-59, 60-99)."
+      },
+      {
+        "title": "Course progression",
+        "content": "This week operationalizes the Week 01 definitions into executable Monte Carlo traces."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w2_p1",
+        "title": "Discrete demand mapping from cumulative probability",
+        "statement": "Demand probabilities: D0=0.1, D1=0.5, D2=0.4. Determine demand for RN=42.",
+        "method": "00-99 cumulative mapping",
+        "steps": [
+          "Build ranges: 00-09 -> D0, 10-59 -> D1, 60-99 -> D2.",
+          "Locate RN=42 in the table.",
+          "Read mapped outcome from interval 10-59."
+        ],
+        "finalAnswer": "Demand outcome is D1."
+      },
+      {
+        "id": "w2_p2",
+        "title": "Coin toss simulation mapping",
+        "statement": "For fair-coin simulation with RN in [0,1), map RN=0.73 and RN=0.18 to outcomes.",
+        "method": "RN interval partitioning",
+        "steps": [
+          "Use rule: RN < 0.5 => Head, else Tail.",
+          "RN=0.73 is in [0.5,1) => Tail.",
+          "RN=0.18 is in [0,0.5) => Head."
+        ],
+        "finalAnswer": "Outcomes are Tail for 0.73 and Head for 0.18."
+      },
+      {
+        "id": "w2_p3",
+        "title": "Range-table construction check",
+        "statement": "Given probabilities [0.2, 0.3, 0.5], build 00-99 mapping intervals.",
+        "method": "Cumulative boundary construction",
+        "steps": [
+          "Compute cumulative probabilities: 0.2, 0.5, 1.0.",
+          "Allocate first 20 numbers to outcome 1: 00-19.",
+          "Allocate next 30 numbers to outcome 2: 20-49, remaining 50 to outcome 3: 50-99."
+        ],
+        "finalAnswer": "Intervals are 00-19, 20-49, and 50-99."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/All_Sections/Simulation_All_Sections.md"
+    ]
+  },
+  {
+    "id": "w3",
+    "week": "Week 03",
+    "title": "Monte Carlo Trial Execution and Frequency Stability",
+    "description": "Run repeated trials and compute empirical frequencies, then compare to expected theoretical probabilities.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2003/Simulation-Section_3.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2003/Simulation-Section_3.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session1_Foundations/Session1_Foundations.md"
+    ],
+    "concepts": [
+      "Monte Carlo trials",
+      "Empirical probability",
+      "Large-sample stabilization",
+      "Demand simulation"
+    ],
+    "keyDetails": [
+      {
+        "title": "Section 3 evidence",
+        "content": "Simulation-Section_3 focuses on two-digit random numbers and mapped outcome frequencies."
+      },
+      {
+        "title": "Evaluation focus",
+        "content": "Students verify that simulation frequencies approach expected probabilities as trials increase."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w3_p1",
+        "title": "100-trial fair coin estimate",
+        "statement": "Estimate P(Head) using 100 Monte Carlo draws.",
+        "method": "Trial replication",
+        "steps": [
+          "Generate 100 independent RN values.",
+          "Count heads where RN<0.5.",
+          "Divide head count by 100."
+        ],
+        "finalAnswer": "Empirical estimate approaches 0.5 with enough trials."
+      },
+      {
+        "id": "w3_p2",
+        "title": "Convergence comparison across sample sizes",
+        "statement": "Compare error from 20 trials versus 200 trials for same Bernoulli process.",
+        "method": "Frequency stability analysis",
+        "steps": [
+          "Compute p-hat at n=20 and n=200.",
+          "Measure absolute error against theoretical probability.",
+          "Observe lower variability for n=200."
+        ],
+        "finalAnswer": "Larger sample size gives a more stable, lower-error estimate."
+      },
+      {
+        "id": "w3_p3",
+        "title": "Empirical demand distribution from traces",
+        "statement": "From simulated demands [0,1,2,1,1,2,0,1,2,1], estimate probabilities.",
+        "method": "Relative frequency",
+        "steps": [
+          "Count each demand value occurrences.",
+          "Convert counts to proportions by dividing by 10.",
+          "Report empirical distribution and compare to input distribution."
+        ],
+        "finalAnswer": "Estimated probabilities are P(0)=0.2, P(1)=0.5, P(2)=0.3."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/All_Sections/Simulation_All_Sections.md"
+    ]
+  },
+  {
+    "id": "w4",
+    "week": "Week 04",
+    "title": "Case Simulation I: Accident and Football Risk Problems",
+    "description": "Apply Monte Carlo logic to contextual case studies with loss/injury outcome distributions.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2004/Accident%20Problem.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2004/Accident%20Problem.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2004/Football%20problem.pdf"
+    ],
+    "concepts": [
+      "Case-based simulation",
+      "Outcome probability tables",
+      "Risk/cost estimation",
+      "Scenario interpretation"
+    ],
+    "keyDetails": [
+      {
+        "title": "Accident case",
+        "content": "Accident Problem.pdf models stochastic accident penalties using discrete probability levels."
+      },
+      {
+        "title": "Football case",
+        "content": "Football problem.pdf applies simulation to player-injury impact over games and roster availability."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w4_p1",
+        "title": "Accident frequency simulation (12 days)",
+        "statement": "Use Week 4 accident table (2-6 accidents/day with given probabilities) to simulate 12 days.",
+        "method": "RN-to-outcome mapping with day trace",
+        "steps": [
+          "Convert accident probabilities into cumulative RN intervals.",
+          "Map 12 random numbers to daily accident counts.",
+          "Sum and average daily accidents from the simulated horizon."
+        ],
+        "finalAnswer": "A complete 12-day trace yields estimated mean accidents/day from mapped outcomes."
+      },
+      {
+        "id": "w4_p2",
+        "title": "Football running-backs choice problem",
+        "statement": "From the Week 4 football problem, select running back outcomes according to probability ranges.",
+        "method": "Categorical Monte Carlo selection",
+        "steps": [
+          "Build RN intervals for the six running backs.",
+          "Map each generated RN to one running back outcome.",
+          "Summarize frequencies to support decision comparison."
+        ],
+        "finalAnswer": "Mapped frequencies approximate the original running-back probabilities."
+      },
+      {
+        "id": "w4_p3",
+        "title": "Reorder-point trigger with random lead time",
+        "statement": "Stock starts at 12, reorder point=5, daily demand [2,3,4,1,2], lead-time drawn from distribution.",
+        "method": "Inventory state transition trace",
+        "steps": [
+          "Update end-of-day stock after each demand.",
+          "Place order when stock <= reorder point and no outstanding order.",
+          "Schedule order arrival using sampled lead-time and continue trace."
+        ],
+        "finalAnswer": "Order is triggered once stock crosses the threshold and arrives after sampled lead time."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session2_BusinessLogic/Session2_BusinessLogic.md"
+    ]
+  },
+  {
+    "id": "w5",
+    "week": "Week 05",
+    "title": "Distributions and Multi-Stage Decision Simulation",
+    "description": "Connect distribution basics (mean/variance) with branch-dependent simulation logic such as insurance decision trees.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2005/Simulation-Section_5.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2005/Simulation-Section_5.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2005/Section%20%285%29.%20simulation.pdf"
+    ],
+    "concepts": [
+      "Discrete vs continuous distributions",
+      "Expected value and variance",
+      "Conditional branching",
+      "Two-stage RN streams"
+    ],
+    "keyDetails": [
+      {
+        "title": "Section 5 scope",
+        "content": "Week 05 materials include distribution formulas and staged simulation logic in one progression."
+      },
+      {
+        "title": "Decision-tree modeling",
+        "content": "Insurance-style branch simulation demonstrates conditional probability handling in manual traces."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w5_p1",
+        "title": "Insurance call two-stage simulation",
+        "statement": "Using section-5 rules: RN1=30 (interest), RN2=85 (policy type), determine sale outcome.",
+        "method": "Conditional branching with two RN streams",
+        "steps": [
+          "Map RN1 against interest range (00-49 => interested).",
+          "Since interested, map RN2 against policy-type intervals.",
+          "Read final branch outcome from second-stage range."
+        ],
+        "finalAnswer": "Outcome is a large policy sale."
+      },
+      {
+        "id": "w5_p2",
+        "title": "Expected policy value over 20 calls",
+        "statement": "Simulate 20 house calls and estimate expected policy value per call.",
+        "method": "Repeated branch simulation with payoff averaging",
+        "steps": [
+          "For each call, execute interest branch then sale-type branch.",
+          "Assign payoff (no sale, small policy, large policy) by outcome.",
+          "Average total payoff over 20 calls."
+        ],
+        "finalAnswer": "Expected value is total simulated revenue divided by 20 calls."
+      },
+      {
+        "id": "w5_p3",
+        "title": "Discrete vs continuous distribution moments",
+        "statement": "From Section 5 Problem 1, compute mean and variance for one discrete and one continuous example.",
+        "method": "Distribution moment formulas",
+        "steps": [
+          "For discrete X: compute E[X]=Σxp(x) and Var[X]=E[X^2]-E[X]^2.",
+          "For continuous X: compute E[X]=∫xf(x)dx and Var[X]=E[X^2]-E[X]^2.",
+          "Evaluate numerically for provided parameters in the sheet."
+        ],
+        "finalAnswer": "Mean and variance follow standard discrete/continuous moment definitions."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session2_BusinessLogic/Session2_BusinessLogic.md"
+    ]
+  },
+  {
+    "id": "w6",
+    "week": "Week 06",
+    "title": "Time-Advance Methods: Periodic Scan vs Event Scan",
+    "description": "Introduce simulation clock management and compare fixed-increment scanning with next-event advancement.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2006/Section%20%286%29.%20Simulation.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2006/Section%20%286%29.%20Simulation.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session3_Performance/Session3_Performance.md"
+    ],
+    "concepts": [
+      "Clock advance",
+      "Future Event List (FEL)",
+      "Periodic scan",
+      "Next-event simulation"
+    ],
+    "keyDetails": [
+      {
+        "title": "Section 6 objective",
+        "content": "Session3_Performance identifies Section 6 as the transition to time-advance mechanisms for discrete-event systems."
+      },
+      {
+        "title": "Method trade-off",
+        "content": "Event scan improves efficiency by jumping to real event times instead of checking empty ticks."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w6_p1",
+        "title": "Periodic versus event-scan timeline",
+        "statement": "Events occur at t=3 (arrival) and t=8 (departure). Compare checks for Δt=1 periodic scan vs event scan.",
+        "method": "Clock-advance comparison",
+        "steps": [
+          "Periodic scan evaluates times 0 through 8 each tick.",
+          "Event scan jumps directly to t=3 then t=8.",
+          "Count checks/events processed by each method."
+        ],
+        "finalAnswer": "Event scan processes only real event times and needs fewer checks."
+      },
+      {
+        "id": "w6_p2",
+        "title": "Future Event List ordering",
+        "statement": "Given FEL entries D@12, A@7, A@10, process next two events.",
+        "method": "Priority-by-time event scheduling",
+        "steps": [
+          "Sort FEL by smallest event time.",
+          "Execute A@7 then update state and schedule any follow-up event.",
+          "Execute next earliest event from updated FEL."
+        ],
+        "finalAnswer": "Events are handled in chronological order: A@7 then A@10 (before D@12)."
+      },
+      {
+        "id": "w6_p3",
+        "title": "Single-server state update on arrival/departure",
+        "statement": "Server idle at t=0, arrivals at t=1 and t=2, service time=3 each. Trace queue length and server status.",
+        "method": "Event-by-event state transition",
+        "steps": [
+          "At t=1 first arrival starts service immediately.",
+          "At t=2 second arrival joins queue since server is busy.",
+          "At t=4 first departure occurs, queued job starts service."
+        ],
+        "finalAnswer": "Queue builds to length 1 at t=2 and drains when first service completes at t=4."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2013/Event%20Driven.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2013/Time%20Driven.pdf"
+    ]
+  },
+  {
+    "id": "w7",
+    "week": "Week 07",
+    "title": "Queue Inputs and Random Variate Preparation",
+    "description": "Prepare queue simulations using CDF-based random observation generation for core distributions.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2007/Simulation-Section_7.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2007/Simulation-Section_7.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Exams/7th/Simulation%20till%207th.pdf"
+    ],
+    "concepts": [
+      "CDF derivation",
+      "Inverse transform method",
+      "Uniform distribution",
+      "Exponential distribution",
+      "Queue model inputs"
+    ],
+    "keyDetails": [
+      {
+        "title": "Week 07 file evidence",
+        "content": "Simulation-Section_7 extraction references deriving CDF and random-observation equations for U(a,b) and Exp."
+      },
+      {
+        "title": "Midterm boundary",
+        "content": "The 7th-week exam materials indicate this week closes the first half of the course sequence."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w7_p1",
+        "title": "Two-customer waiting-time trace",
+        "statement": "C1 arrives at 1, service 3; C2 arrives at 2, service 2. Compute waits and average wait.",
+        "method": "Arrival/service/departure timeline",
+        "steps": [
+          "C1 starts at 1 and departs at 4 (wait=0).",
+          "C2 starts at 4 and departs at 6 (wait=2).",
+          "Average wait=(0+2)/2."
+        ],
+        "finalAnswer": "Average waiting time is 1 time unit."
+      },
+      {
+        "id": "w7_p2",
+        "title": "Queue length profile from event list",
+        "statement": "Arrivals at [0,1,3], departures at [2,5,7]. Determine queue length just after each event.",
+        "method": "Event-count balance",
+        "steps": [
+          "Start from empty system.",
+          "Increment system count at arrival and decrement at departure.",
+          "Record queue length considering one active server."
+        ],
+        "finalAnswer": "Queue length evolves by cumulative arrivals minus departures minus in-service customer."
+      },
+      {
+        "id": "w7_p3",
+        "title": "Average waiting time from full trace",
+        "statement": "Waiting times are [0,1,4,2,3] minutes. Compute average and identify worst case.",
+        "method": "Performance metric aggregation",
+        "steps": [
+          "Sum waits: 0+1+4+2+3=10.",
+          "Divide by customer count 5 to get average.",
+          "Find max wait by scanning list."
+        ],
+        "finalAnswer": "Average wait is 2 minutes; worst-case wait is 4 minutes."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Exams/7th/7th%20Exam.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Exams/7th/7th%20exam%20answer%281%29.pdf"
+    ]
+  },
+  {
+    "id": "w8",
+    "week": "Week 08",
+    "title": "Revision and Validation Tables (Chi-Square/KS Support)",
+    "description": "Consolidate first-half topics and practice statistical validation support using proof sheets and standard tables.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2008%20Revision/Simulation%20proofs.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2008%20Revision/Simulation%20proofs.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2008%20Revision/Ztable.pdf"
+    ],
+    "concepts": [
+      "Revision drills",
+      "Goodness-of-fit support",
+      "Z-table usage",
+      "Validation readiness"
+    ],
+    "keyDetails": [
+      {
+        "title": "Revision evidence",
+        "content": "Week 08 directory is explicitly labeled Revision and contains simulation proof sheets plus Z-table reference."
+      },
+      {
+        "title": "Validation continuity",
+        "content": "Curriculum syllabus names Chi-square and Kolmogorov-Smirnov tests; this week supports those computations."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w8_p1",
+        "title": "Chi-square goodness-of-fit statistic",
+        "statement": "Observed [12,18,20,10], expected [15,15,15,15]. Compute χ².",
+        "method": "Chi-square term summation",
+        "steps": [
+          "Compute each contribution (Oi-Ei)^2/Ei.",
+          "Add all four contributions.",
+          "Use DOF and alpha table for accept/reject decision."
+        ],
+        "finalAnswer": "χ² = 5.6 before comparing to critical value."
+      },
+      {
+        "id": "w8_p2",
+        "title": "Kolmogorov-Smirnov maximum gap",
+        "statement": "For empirical CDF [0.2,0.55,0.8,1.0] and theoretical [0.25,0.5,0.75,1.0], compute D.",
+        "method": "Max absolute CDF difference",
+        "steps": [
+          "Compute |F_emp-F_theory| at each point.",
+          "Values are [0.05,0.05,0.05,0.0].",
+          "Select maximum as KS statistic D."
+        ],
+        "finalAnswer": "D = 0.05."
+      },
+      {
+        "id": "w8_p3",
+        "title": "Z-table lookup for standardized value",
+        "statement": "Find P(Z<1.25) and right-tail probability using Z-table.",
+        "method": "Standard normal lookup",
+        "steps": [
+          "Read cumulative value at z=1.25 from table (≈0.8944).",
+          "Compute right tail as 1-0.8944.",
+          "Interpret as exceedance probability."
+        ],
+        "finalAnswer": "P(Z<1.25)≈0.8944 and P(Z>1.25)≈0.1056."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Lectures/Curriclum.docx"
+    ]
+  },
+  {
+    "id": "w9",
+    "week": "Week 09",
+    "title": "7th Exam Debrief and Integrated Trace Review",
+    "description": "Work through 7th exam answer sets to consolidate random mapping, queue traces, and interpretation quality.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2009%207th%20Exam%20Answer/7th%20exam%20answer.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2009%207th%20Exam%20Answer/7th%20exam%20answer.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Exams/7th/7th%20Exam.pdf"
+    ],
+    "concepts": [
+      "Midterm solution analysis",
+      "Trace correction",
+      "Interpretation quality",
+      "Coverage integration"
+    ],
+    "keyDetails": [
+      {
+        "title": "Folder evidence",
+        "content": "Week 09 is organized as 7th Exam Answer, indicating a dedicated debrief/review week."
+      },
+      {
+        "title": "Learning purpose",
+        "content": "Students compare method steps against answer keys to remove procedural mistakes before advanced cases."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w9_p1",
+        "title": "Policy comparison under same demand stream",
+        "statement": "Compare inventory policies RP=5 and RP=8 under identical daily demands.",
+        "method": "Controlled experiment simulation",
+        "steps": [
+          "Run both policies with same random demand sequence.",
+          "Track stockouts and average inventory for each policy.",
+          "Compare service level versus holding burden."
+        ],
+        "finalAnswer": "Higher reorder point usually lowers stockouts and raises average stock."
+      },
+      {
+        "id": "w9_p2",
+        "title": "Stockout-day counting",
+        "statement": "Given ending stocks [3,1,0,-1,4,0], count stockout days and stockout ratio.",
+        "method": "Threshold-based KPI",
+        "steps": [
+          "Mark day as stockout when ending stock <= 0.",
+          "Count marked days in horizon.",
+          "Divide by total days to obtain ratio."
+        ],
+        "finalAnswer": "Stockout occurred on 3 of 6 days (50%)."
+      },
+      {
+        "id": "w9_p3",
+        "title": "Average inventory level from trace",
+        "statement": "Daily ending stocks are [10,8,7,5,9]. Compute average inventory.",
+        "method": "Time-average estimate",
+        "steps": [
+          "Sum levels: 10+8+7+5+9=39.",
+          "Divide by 5 days.",
+          "Interpret result as average carrying level."
+        ],
+        "finalAnswer": "Average inventory is 7.8 units."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Exams/7th/7th%20exam%20answer%281%29.pdf"
+    ]
+  },
+  {
+    "id": "w10",
+    "week": "Week 10",
+    "title": "Machine Maintenance and Replacement Simulation",
+    "description": "Model equipment failure/repair and evaluate maintenance and replacement timing through simulated traces.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2010/week%2010%20full%20solution.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2010/week%2010%20full%20solution.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2010/Week%2010.pdf"
+    ],
+    "concepts": [
+      "Reliability simulation",
+      "Time-to-failure mapping",
+      "Replacement policy",
+      "Downtime/cost metrics"
+    ],
+    "keyDetails": [
+      {
+        "title": "Section text signal",
+        "content": "Week 10 full solution describes a maintenance problem for complex equipment with component failures."
+      },
+      {
+        "title": "Decision objective",
+        "content": "Simulation outputs are used to compare maintenance policy performance before implementation."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w10_p1",
+        "title": "Server utilization from busy time",
+        "statement": "Busy time is 45 minutes over a 60-minute run. Compute utilization.",
+        "method": "Direct ratio",
+        "steps": [
+          "Use rho = busy time / total time.",
+          "Substitute 45/60.",
+          "Convert to percentage."
+        ],
+        "finalAnswer": "Utilization is 0.75 (75%)."
+      },
+      {
+        "id": "w10_p2",
+        "title": "Idle time and percentage",
+        "statement": "If total run is 8 hours and busy time is 5.5 hours, compute idle time and idle percent.",
+        "method": "Complementary performance metrics",
+        "steps": [
+          "Idle time = total - busy = 2.5 hours.",
+          "Idle fraction = 2.5/8.",
+          "Convert to percentage."
+        ],
+        "finalAnswer": "Idle time is 2.5 hours, i.e., 31.25%."
+      },
+      {
+        "id": "w10_p3",
+        "title": "Failure-repair queue interpretation",
+        "statement": "In the week-10 full-solution context (frequent tube failures), explain effect of higher failure rate on queue metrics.",
+        "method": "Queue pressure reasoning",
+        "steps": [
+          "More failures increase arrival rate to repair queue.",
+          "If service capacity unchanged, waiting and queue length rise.",
+          "Higher waiting raises downtime and may lower effective throughput."
+        ],
+        "finalAnswer": "Higher failure intensity worsens waiting, queue length, and downtime unless repair capacity is improved."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2012/repairman/One%20Repairman.pdf"
+    ]
+  },
+  {
+    "id": "w11",
+    "week": "Week 11",
+    "title": "Two-Stage Assembly Line (Bob and Ray)",
+    "description": "Simulate tandem service stations, identify waiting buildup, and quantify bottleneck effects.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2011/Week%2011.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2011/Assembly%20Lines-%28Bob%20and%20Ray%29%20full%20solution.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2011/Assembly%20Lines-%28Bob%20_%20Ray%29%20ful%20solution.pdf"
+    ],
+    "concepts": [
+      "Serial service stations",
+      "Blocking and waiting",
+      "Throughput limits",
+      "Bottleneck identification"
+    ],
+    "keyDetails": [
+      {
+        "title": "Primary case",
+        "content": "Week 11 files explicitly focus on the two-stage Bob-and-Ray assembly line simulation."
+      },
+      {
+        "title": "Performance interpretation",
+        "content": "Service-rate mismatch is analyzed through trace tables to explain queue buildup and lost throughput."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w11_p1",
+        "title": "Bob-Ray bottleneck identification",
+        "statement": "In two-stage line, Bob=3 min/item and Ray=5 min/item. Identify bottleneck.",
+        "method": "Service-rate comparison",
+        "steps": [
+          "Convert times to rates: Bob 20 items/hr, Ray 12 items/hr.",
+          "Lower processing rate determines bottleneck.",
+          "Infer queue buildup before slower stage."
+        ],
+        "finalAnswer": "Ray (stage 2) is bottleneck."
+      },
+      {
+        "id": "w11_p2",
+        "title": "Line utilization by stage",
+        "statement": "Total run is 120 min. Bob busy 90 min, Ray busy 110 min. Compute stage utilizations.",
+        "method": "Per-station utilization metric",
+        "steps": [
+          "Bob utilization = 90/120.",
+          "Ray utilization = 110/120.",
+          "Compare values to explain where congestion forms."
+        ],
+        "finalAnswer": "Bob utilization is 75%; Ray utilization is about 91.7%, confirming Ray as tighter stage."
+      },
+      {
+        "id": "w11_p3",
+        "title": "Throughput estimate for serial stations",
+        "statement": "Given deterministic stage times 4 min then 6 min/item, estimate long-run throughput.",
+        "method": "Bottleneck-capacity throughput",
+        "steps": [
+          "Compute capacities: stage1=15/hr, stage2=10/hr.",
+          "Serial line throughput limited by minimum capacity.",
+          "Use slower stage as long-run output rate."
+        ],
+        "finalAnswer": "Throughput is limited to about 10 items/hour."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Study/Session3_Performance/Session3_Performance.md"
+    ]
+  },
+  {
+    "id": "w12",
+    "week": "Week 12",
+    "title": "Repairman Capacity Models (One vs Two Repairmen)",
+    "description": "Compare maintenance queues under different repair capacity levels and interpret downtime-cost tradeoffs.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2012/Week%2012.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2012/Section%20%2812%29.%20simulation.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2012/repairman/One%20Repairman.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2012/repairman/Two%20Repairman.pdf"
+    ],
+    "concepts": [
+      "Finite-source repair model",
+      "Service capacity effect",
+      "Machine downtime",
+      "Cost comparison"
+    ],
+    "keyDetails": [
+      {
+        "title": "Week 12 package",
+        "content": "Week 12 includes dedicated One Repairman and Two Repairman solution files for direct comparison."
+      },
+      {
+        "title": "Operational insight",
+        "content": "Capacity expansion is evaluated via simulated waiting, repair completion, and downtime costs."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w12_p1",
+        "title": "One-repairman Tucson Mills interpretation",
+        "statement": "For One Repairman sheet, discuss expected queue and downtime behavior under random breakdowns.",
+        "method": "Single-server maintenance queue analysis",
+        "steps": [
+          "Model breakdowns as arrivals and repairs as service times.",
+          "With one repairman, jobs can queue during clustered failures.",
+          "Queued repairs increase machine downtime cost."
+        ],
+        "finalAnswer": "One repairman creates higher waiting and downtime risk when failures cluster."
+      },
+      {
+        "id": "w12_p2",
+        "title": "Two-repairman capacity effect",
+        "statement": "Compare one versus two repairmen when downtime cost is $40/hour per failed machine.",
+        "method": "Capacity-and-cost comparison",
+        "steps": [
+          "Estimate waiting reduction from adding second repair server.",
+          "Translate reduced waiting to lower downtime hours.",
+          "Compute cost impact via $40 per machine-hour down."
+        ],
+        "finalAnswer": "Two repairmen usually reduce queueing delay and downtime cost substantially."
+      },
+      {
+        "id": "w12_p3",
+        "title": "Repair queue KPI extraction",
+        "statement": "From a repair trace, breakdown arrivals=15, completed repairs=14 in horizon with average wait 1.8h. State interpretation.",
+        "method": "Queue KPI interpretation",
+        "steps": [
+          "Unfinished jobs imply residual backlog at horizon end.",
+          "Average wait indicates repair responsiveness level.",
+          "Use both to decide if extra capacity is justified."
+        ],
+        "finalAnswer": "System is near capacity: one unresolved job and 1.8h average wait suggest pressure on maintenance resources."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Lectures/Week%2012%20-%20Handwritten_2026-05-12_235421.pdf"
+    ]
+  },
+  {
+    "id": "w13",
+    "week": "Week 13",
+    "title": "Queueing Performance Integration: Time-Driven vs Event-Driven",
+    "description": "Finalize by computing M/M/1 performance measures and comparing time-driven and event-driven implementations on the same queue.",
+    "pdfUrl": "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2013/week%2013%20simulation.pdf",
+    "sectionUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2013/Event%20Driven.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2013/Time%20Driven.pdf",
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Section/Week%2013/week%2013%20simulation.pdf"
+    ],
+    "concepts": [
+      "M/M/1 metrics (P0, L, Lq, W, Wq)",
+      "Event-driven execution",
+      "Time-driven execution",
+      "Method comparison"
+    ],
+    "keyDetails": [
+      {
+        "title": "Week 13 evidence",
+        "content": "Event Driven.pdf and Time Driven.pdf share the same M/M/1 prompt, requiring side-by-side simulation approaches."
+      },
+      {
+        "title": "Course closure",
+        "content": "week 13 simulation.pdf integrates queue equations, trace execution, and performance interpretation in one capstone week."
+      }
+    ],
+    "solvedProblems": [
+      {
+        "id": "w13_p1",
+        "title": "M/M/1 performance measures derivation",
+        "statement": "Derive P0, Pn, L, Lq, W, Wq for M/M/1 and evaluate at rho=0.8.",
+        "method": "Queueing-theory formula application",
+        "steps": [
+          "Use P0=1-rho and Pn=(1-rho)rho^n.",
+          "Compute L=rho/(1-rho), Lq=rho^2/(1-rho).",
+          "Using Little's law, compute W=L/lambda and Wq=Lq/lambda."
+        ],
+        "finalAnswer": "At rho=0.8: P0=0.2, L=4, Lq=3.2, with W and Wq from lambda scaling."
+      },
+      {
+        "id": "w13_p2",
+        "title": "Time-driven versus event-driven selection",
+        "statement": "For irregular queue arrivals, choose simulation clock strategy and justify.",
+        "method": "Algorithmic efficiency comparison",
+        "steps": [
+          "Time-driven scans many empty ticks when events are sparse.",
+          "Event-driven jumps directly between actual event times.",
+          "Prefer method minimizing unnecessary state checks."
+        ],
+        "finalAnswer": "Event-driven simulation is preferred for irregular sparse arrivals."
+      },
+      {
+        "id": "w13_p3",
+        "title": "Integrated simulation pipeline design",
+        "statement": "Outline full workflow combining RN generation, mapping, event logic, and metric reporting for final assignment.",
+        "method": "End-to-end model design",
+        "steps": [
+          "Generate random variates and map to interarrival/service outcomes.",
+          "Run event calendar (arrivals/departures) while updating state variables.",
+          "Collect KPIs (L, W, utilization), then validate against theory/tests."
+        ],
+        "finalAnswer": "A complete solution links random inputs, event processing, KPIs, and validation in one reproducible simulation run."
+      }
+    ],
+    "sourceUrls": [
+      "file:///C:/Users/omarh/OneDrive/Desktop/Uni/System%20Modeling%20and%20Simulation/Assignments/Questions/Week%2013%20-%20assignment%204.docx"
+    ]
+  }
+]

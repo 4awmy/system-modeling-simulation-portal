@@ -1,0 +1,419 @@
+Total Paragraphs: 417
+
+[0]: Simulation and Modeling: Discrete-Event System Simulation
+[1]: By Banks, Carson, II & Nelson, Nicol
+Fifth Edition 2014
+Pearson Edition Limited 2014  
+[3]: Elaborated by:
+بسم الله الرحمن الرحيم
+Dr. Farouk Shaaban  
+[7]: Syllabus
+[8]: 1. Basic concepts and terminology  
+[9]: Concepts of a system  
+[10]: System Methodology  
+[11]: Advantages and disadvantages of simulation  
+[12]: Simulation terminology
+[13]: 2. Probability and distribution theory  
+[14]: Probability  
+[15]: Set theory, compound events  
+[16]: Conditional probability, independent events  
+[17]: Discrete distributions  
+[18]: Continuous distributions  
+[19]: Function of a random variable  
+[20]: Moments  
+[21]: Some common distributions
+[22]: 3. Estimation and statistical tests  
+[23]: Empirical distributions  
+[24]: Estimation  
+[25]: Tests of hypotheses  
+[26]: The Chi-Squire goodness-of-fit test  
+[27]: The Kolmogorive-Smirnov test
+[28]: 4. Generation of Random Numbers  
+[29]: Pseudo random numbers  
+[30]: Congruential generators  
+[31]: Testing and validating Pseudo random numbers
+[32]: 5. Introduction to queuing theory  
+[33]: Review of the Poisson and Exponential distributions  
+[34]: The M/M/1/∞/FIFO system  
+[35]: Summary measures for the M/M/1/∞/FIFO system
+[36]: 6. Discrete system simulation  
+[37]: Examples  
+[38]: Time management methods  
+[39]: Collecting and recording simulation data  
+[40]: Analysis of simulation results  
+[41]: Evaluation of the simulation model
+[42]: 7. Languages for discrete system simulation  
+[43]: Language characteristics  
+[44]: Use multipurpose languages  
+[45]: Special-purpose languages: GPSS, SIMSCRIPT II.5, SLAM II, GASP IV
+[49]: Grading Policy
+[50]: 4th week test: 10 Marks (Lecture)  
+[51]: 7th week test: 15 Marks (Lecture)  
+[52]: 7th week test: 5 Marks (Section)  
+[53]: 12th week test: 20 Marks (Lecture)  
+[54]: 5 assignments each one Mark (Lecture)  
+[55]: 5 Marks Term work (Section)  
+[56]: 40 Marks the Final Exam  
+[57]: Any bonus during lectures will be added to the Final Marks
+[64]: Simulation Principles and Methods
+[65]: 1. Introduction
+[66]: The basic idea of Simulation is to build an experimental device (model) that acts like (simulates) the real system in certain important aspects. The purpose is to understand or evaluate the behavior of a complex real-world system over an extended period without risk to the real system performance.  
+[67]: 2. Why Use Simulation?
+[68]: a) If experimentation on the real-world system is not feasible or not possible:  
+[69]: Too expensive (not feasible)  
+[70]: Too risky (atomic problems) (not possible)  
+[71]: Too complex  
+[72]: Not existing system  
+[73]: Intractable
+[74]: b) Simulation is the best (may be the only) technique available under conditions of uncertainty due to stochastic (random) variables or nonlinearity. Mathematical treatment of such systems is frequently not possible.  
+[75]: c) Computer simulation gives control over time, which may be compressed or expanded, such as an aircraft; simulation may gather data on many months of operations in minutes.  
+[76]: 3. Simulation Application
+[77]: Simulation can be used in:  
+[78]: Theoretical problems in basic science areas such as math, physics, and chemistry.  
+[79]: Practical problems in all aspects of life such as industrial problems, business, economic, biomedical systems, social problems (Population dynamics), space research, and War strategies.
+[80]: 4. Basic Concepts and Terminology
+[81]: a) System:  
+[82]: Is defined as an isolated collection of interacting components or objects with a defined set of interactions among them.  
+[83]: A Jet aircraft is an excellent example of a complex system consisting of mechanical, electronic, chemical, and human components.
+[84]: b) State of a system:  
+[85]: It is the minimal collection of information with which the system’s future behavior can be predicted. For the Jet aircraft, the state of the system can be determined by Speed, Direction of travel, weather conditions, number of passengers, and amount of remaining fuel.
+[88]: c) An Activity:  
+[89]: It is the process or Event Which changes the system state.
+[90]: d) System Classification:  
+[91]: Natural and Man-Made  
+[92]: Deterministic / 
+[94]: Stochastic (Probabilistic) 
+[96]: Continuous: A system whose changes in its state occur continuously over time (liquid flow in a pipeline)  
+[97]: Discrete: Growth of world population with respect to time. 
+[98]: 5. System Methodology
+[99]: When simulation is used to solve a problem, the following time-tested steps, or stages are applied:  
+[100]: Observation of the system  
+[101]: Formulation of hypotheses or theories that account for the observed behavior  
+[102]: Prediction of the future behavior of the system based on the assumption that the hypotheses are correct  
+[103]: Comparison of the predicted behavior with the actual behavior
+[113]: The system being studied may impose constraints on certain steps of this scientific method. For example, consider the simulation of a system that does not yet exist. Obviously, the observation of such a system is not possible, but the simulation of such a system may still be possible if the analysis is carefully conducted and if the ultimate requirements are known.  
+[114]: The problem-solving process is divided into four phases:  
+[115]: Planning  
+[116]: Modeling  
+[117]: Validation  
+[118]: Application
+[119]: a) Planning  
+[120]: Includes the initial encounter with the system, the problem to be solved, and the factors pertaining to the system and its environment that are likely to affect the solution of the problem. This means the problem must be well-defined. Obviously, the more accurate and precise the problem statement is, the more smoothly the solution process can proceed.  
+[121]: Resources must be considered and estimated such as money, time, personnel, and special equipment. If crucial resources are not available, the solution of the problem can be judged infeasible before a significant amount of time or money is spent.
+[122]: b) Modeling  
+[123]: In this phase, the analyst constructs the system model, which is a representation of the real system. The characteristics of this model should be Representative (not identical) of the characteristics of the real system. You must select some minimal set of the system’s characteristics so that the model approximates the real system to be cost-effective and manageable.  
+[124]: There are many types of simulation models:  
+[125]: 1. Descriptive models (verbalizations of the system's composition)  
+[126]: 2. Physical models (scaled facsimiles of the system: aircraft, cars, building, etc.)  
+[127]: 3. Mathematical models (abstract expressions of the relationships among the system variables: Newton's laws of motion, etc.)  
+[128]: 4. Flowcharts (Logical interaction between system's components)  
+[129]: 5. Schematics (Logical interaction between system's components)  
+[130]: 6. Computer programs: If the system is too complex, then the reduction technique or subsystem modeling is used.
+[139]: c) Validation  
+[140]: Is to check that the system or the model is a correct representation of the real system. But verification means that the logic of a computer program is ok. So, a verified computer program can represent an invalid model.  
+[141]: There are many techniques used to validate a computer program:  
+[142]: Compare the results of the simulation model with results historically produced by the real system operating under the same conditions.  
+[143]: Use a simulator to predict results, and then compare with the real data for some period.  
+[144]: Various statistical procedures can be used to determine whether the simulated output could have been produced by the real systems and vice versa. Two such methods are the Chi-square goodness-of-fit test and the Kolmogorov-Smirnov test.
+[145]: d) Application  
+[146]: Once the model has been properly validated, it can be applied to solve the problem at hand. A simulator may work error-free for a long period until it encounters a new and perhaps unique combination of program parameters that generates the next error.
+[147]: 6. Advantages and Disadvantages of Simulation
+[148]: Phillips, Ravindran, and Solberg [OR principles and practice, New York: John Wiley, 1976] stated that simulation is one of the easiest tools of management science to use but probably one of the hardest to apply properly and perhaps the most difficult one from which to draw accurate conclusions.  
+[149]: Adkins and Pooch list 5 advantages of simulation modeling:  
+[150]: 1. It permits controlled experimentation  
+[151]: 2. It permits time compression  
+[152]: 3. It permits sensitivity analysis by manipulation of input variables  
+[153]: 4. It does not disturb the real system  
+[154]: 5. It is an effective training tool
+[155]: They also list 4 disadvantages:  
+[156]: 1. A simulation model may become expensive in terms of manpower and computer time  
+[157]: 2. Extensive development time may be encountered  
+[158]: 3. Hidden critical assumption may cause the model to diverge from reality  
+[159]: 4. Model parameters may be difficult to initialize. These may require extensive time in collection, analysis, and interpretation.
+[160]: Thus, although simulation has proved an effective approach to problem-solving, it has its drawbacks. The researcher should be aware of these drawbacks before becoming committed to this approach.  
+[164]: Examples
+[165]: Example 1
+[166]: The first example we are going to see is the simulation of tossing a fair coin. The first step is analyzing the problem. The fair coin means that when tossing that coin, the probability of head equals the probability of tail equals 50%. So, using a digital computer to simulate this phenomenon, we are going to use a uniform Random number generated by the package you are using, or you can write its code.  Uniform random number means that you have a set of random numbers between 0 and 1, all with the same probability. But most languages generate uniform random number integers from a to b with equal probability.  
+[167]: See the following program written in C++:  
+[168]:          
+    #include <iostream>    
+    #include <stdlib.h>    
+    void main(void)    
+    {    
+        int x, number_of_trials, head = 0, tail = 0;    
+        float phead, ptail, error_head, error_tail;    
+        cout << "enter number of trials" << endl;    
+        cin >> number_of_trials;    
+        for (int i = 0; i < number_of_trials; i++)    
+        {    
+            x = random(2);    
+            if (x == 1) head++;    
+            else ++tail;    
+        }    
+        phead = head * 1.0 / number_of_trials;    
+        ptail = tail * 1.0 / number_of_trials;    
+        error_head = abs(((0.5 - phead) / 0.5) * 100);    
+        error_tail = abs(((0.5 - ptail) / 0.5) * 100);    
+        cout << "probability of head = " << phead << " with error =" << error_head << "%" << endl;    
+        cout << "probability of tail = " << ptail << " with error =" << error_tail << "%" << endl;    
+        cin >> x;    
+    }    
+         
+[170]: The output results are:  
+[171]: Enter number of trials = 1
+probability of head = 0 with error = 100%
+Probability of tail = 1 with error = 100%  
+[172]: Enter number of trials = 5
+probability of head = 0 with error = 100%
+Probability of tail = 1 with error = 100%  
+[173]: Enter number of trials = 32767
+probability of head = 0.496292 with error = 0%
+Probability of tail = 0.503708 with error = 0%
+[175]: Example 2
+[176]: Get the average daily demand for a small grocery store selling fresh bread according to the following table:
+[178]:  Note that the proportion of balls of a specific color corresponds exactly to the probability of a specific level of daily demand.  
+[179]: To simulate the daily demand (5 days):  
+[180]: Draw one ball at a time, notice its color, and then place it back in the bowl. Then translate the outcomes into unique values of demand.
+[182]: Expected value of simulated demand = 560 / 5 = 112 units/day  
+[183]: Analytical solution:
+Expected daily demand = 100(0.2) + 110(0.5) + 120(0.3) = 111 units/day  
+[184]: Example 3
+[185]: Use the one-digit Random Number (6, 3, 5, 0, 8) to generate random observations for:  
+[186]: Throwing an unbiased coin  
+[187]: Throwing a die  
+[188]: The color of a traffic light found by a randomly arriving car when it is green 40% of the time, yellow 10% of the time, and red 50% of the time
+[189]: Solution:
+a) To simulate a coin using one digit R.N. (0-9), let 0–4 represent a Head and 5–9 represent a Tail; so the solution will be:
+   (6, 3, 5, 0, 8) → (T, H, T, H, T)  
+[190]: b) To simulate a die using numbers 0–9. Let 1–6 represent the faces of the die; then 0, 7, 8, and 9 are rejected. So the solution will be:
+   (6, 3, 5, 0, 8) → (6, 3, 5, reject, reject)  
+[191]: c) Divide 0–9 into 3 classes according to the given probability:  
+[192]: Green 40%: 0, 1, 2, 3  
+[193]: Yellow 10%: 4  
+[194]: Red 50%: 5, 6, 7, 8, 9
+   So (6, 3, 5, 0, 8) → (Red, Green, Red, Green, Red)
+[195]: Probability and Distribution Theory
+[196]: Definition 1:
+A random variable is a quantity whose value is determined by the outcome of a Random Experiment, i.e., the Random Variable X is a function whose domain is the event space (set of all possible outcomes of a random experiment) and whose range is some subset of the real numbers.
+X: E → R  
+[197]: Set Theory and Compound Events
+[198]: Definition 2:
+An event is some subset of the event space of a random experiment.
+Ω: Event space or the collection of all the possible outcomes of the experiment.  
+[199]: Example:
+Consider the experiment of tossing two dice and noting the sum of the faces. The event space is Ω = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12} and some events are:
+E1 = {2}
+E2 = {3, 4, 5}
+E3 = {2, 4, 6, 8, 10, 12} (an even number appears)  
+[200]: Definition 3:
+The Complement of an event E is Ē, which contains the set of elements that are in Ω but not in E.
+Note that: E + Ē = Ω, E * Ē = Φ (null set)  
+[201]: Example:
+Ē1 = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+Ē2 = {2, 6, 7, 8, 9, 10, 11, 12}
+Ē3 = {3, 5, 7, 9, 11}  
+[202]: Definition 4:
+Let a random experiment have N equally likely outcomes. Let some event E be composed of n outcomes, so the probability of E is denoted by P(E) = n/N, P(Ē) = 1 – P(E) = (N – n)/N
+Note: P(Ω) = 1, P(Φ) = 0.  
+[203]: Definition 5:
+The Union of two events E1 and E2 is denoted by E1 + E2 and is defined as the outcomes in either E1 OR E2 OR both.
+The intersection of two events E1 & E2 is denoted by E1 · E2 and is defined as the outcomes that the events have in common. Two events that have no outcomes in common are said to be mutually exclusive.  
+[210]: Discrete Distribution
+[213]: The properties that every discrete probability function must have:  
+[214]: 1. P(xi) ≥ 0 for all x. It is called the probability density function (p.d.f.)  
+[215]: 2. Another useful function is the Cumulative distribution CDF = F(x) = P(X ≤ x) {probability that X ≤ x}
+[227]: Another useful function is the Cumulative distribution       
+[228]:   CDF=F(x) = P ( X ≤ x )     {probability that X ≤ x }
+[231]: The CDF has the following properties:  
+[232]: 0 ≤ F(X) ≤ 1, -∞ < x < ∞  
+[233]: If X1 ≤ X2, then F(X1) ≤ F(X2); that is, F is monotonically increasing.  
+[234]: Lim F(X) = F(∞) = 1 as x → ∞  
+[235]: Lim F(X) = F(-∞) = 0 as x → -∞
+[236]: Expected value (Mean):
+E(X) = Σ xi P(xi)
+For the above example:
+E(X) = (1)(1/21) + (2)(2/21) + (3)(3/21) + (4)(4/21) + (5)(5/21) + (6)(6/21) = 91/21  
+[237]: Variance:
+V(X) = Σ (xi - μ)² P(xi)
+For the above example, V(X) = 2.222  
+[238]: Standard Deviation of X is given by S(X) = √V(X)
+For the above example, S(X) = √2.222 ≈ 1.4907  
+[239]: Continuous Distribution
+[240]: 1. f(x) = 0 if x is not in the range of X  
+[241]: 2. f(x) ≥ 0  
+[242]: 3. ∫ f(x) dx = 1 over the range of X  
+[243]: 4. F(x1) = ∫ f(t) dt from -∞ to x1  
+[244]: 5. E(X) = ∫ x f(x) dx  
+[245]: 6. V(X) = E(X²) – (E(X))² = ∫ (x – μ)² f(x) dx
+[246]: Function of a Random Variable
+[247]: Let X denote a R.V. Suppose the R.V. Y is related to X by Y = aX + b where a, b are arbitrary constants.
+E(Y) = E(aX + b) = aE(X) + b
+[248]: 
+V(Y) = V(aX + b) = a² V(X)  
+[262]: Some Common Distributions
+[263]: 1. Bernoulli Distribution
+It is a discrete distribution having only two outcomes. Let X be defined such that it takes the value 0 with probability p and 1 with probability q = 1 – p, i.e.:
+X | 0 | 1
+P(x) | p | q
+CDF = F(x) =  **Example:**  
+Consider the experiment of tossing a fair coin. Let X assume the value 0 if a head appears and 1 for tail. Then p = q = ½ and μ (mean) = q = ½.  
+[264]: 0 for x < 0  
+[265]: p for 0 ≤ x < 1  
+[266]: 1 for x ≥ 1
+μ = E(X) = 0·p + 1·q = q\
+[271]: 2. Uniform Distribution
+Let variable X have a uniform distribution between a and b: X ≈ U(a, b)
+f(x) = 1/(b – a) for a ≤ x ≤ b, 0 otherwise
+The interval [a, b] is called the range of the distribution. 
+CDF is given by: F(x) = (x – a)/(b – a) for a ≤ x ≤ b  
+[275]: 3. Poisson Distribution
+It is a discrete distribution.
+P(X = k) = (λ^k e^(-λ)) / k!
+Mean = λ, Variance = λ  
+[279]: 4. Exponential Distribution
+f(x) = λ e^(-λx) for x ≥ 0
+F(x) = 1 – e^(-λx)  
+[282]: 5. Normal Distribution
+f(x) = (1/(σ√(2π))) e^(-(x-μ)²/(2σ²))
+This integral does not exist in closed form. But there exist tables of values for the standard normal distribution with mean = 0 and var. = 1, which is given by: Z = (X – μ)/σ
+[287]: Variance Reduction Techniques
+[288]: 1. Increase sample size N where V = E(x²) – (E(X))², V ∝ 1/N
+[289]: Examples:
+   Use f(x) = e^(-x), an exponential distribution with mean λ = 1, i.e., F(X) = 1 – e^(-x).
+   Let Xi = -ln(1 – ri)  
+[291]:    Total = 7.793, so mean = 7.793/10 = 0.779 with error = ((1 – 0.779)/1)*100 = 22.1% 
+[293]: 2. Use Complement Random Numbers for the above example f(x) = e^(-x)  i | ri | Xi = -
+[294]: Example:
+   Determine the mean of the random variable with F(X) = x², 0 ≤ x ≤ 1; f(x) = 2x, 0 ≤ x ≤ 1.
+[295]: 
+   F(X) = X² = r, so Xi = √ri  
+[298]:   TOTAL = 4.516, Estimated mean = 4.516/6 = 0.753 with error = 13%  
+[299]:    Using Complement Random Variables:
+
+[300]:    Total = 2.061 + 2.082 = 4.143
+   So the mean = 4.143/6 = 0.691 with Error = ((2/3 – 0.691)/(2/3))*100 = 4%  
+[301]: Introduction to Queuing Theory
+[302]: A queuing system is a system in which customers arrive, wait if that service is not immediately available, receive the necessary service, and then depart.  
+[303]: Customers arriving → Service facility → Customers departing  
+[304]: Characteristics of any queuing system
+[305]: (A) The arrival pattern (distribution of arriving customers)
+(B) The service process (distribution of service time)
+(C) The number of parallel servers
+(D) The system capacity
+(E) The queuing discipline (FIFO, LIFO, priority)  
+[306]: So any queuing system can be described as A/B/C/D/E  
+[307]: The items of interest concerning any queuing model:
+[308]: 1. Queuing length (Lq)  
+[309]: 2. Time in the system (W)  
+[310]: 3. Idle and busy time of a server
+[311]: M/M/1/∞/FIFO system
+[312]: Derivation using stochastic balance: 
+Using balance at point S₀: μp₁ = λp₀ ⇒ p₁ = (λ/μ) p₀
+At point S₁: (λ + μ)p₁ = λp₀ + μp₂ ⇒ p₂ = (λ/μ)² p₀
+And so on, we get pₙ = (λ/μ)ⁿ p₀  
+[315]: Expected number in the system (L): L = E(X) = Σ n pₙ 
+[318]: Expected Number in the queue Lq = Σ (n – 1) pₙ  
+[321]: Using Little’s formula:
+The Expected time in the system (W) = L / λ
+[322]: 
+The Expected time in the Queue (wq) = Lq / λ  
+[324]: Random Number Generation (Pseudo R.N.)
+[325]: There are many algorithms for random number generations, but we are going to emphasize the most common one, which is known as the Congruential method.  
+[327]: Rᵢ₊₁ = (a Rᵢ + c) modulo T
+where:  
+[328]: Rᵢ₊₁ is the new uniform random number  
+[329]: Rᵢ is the previous uniform random number  
+[330]: a, c, and T are arbitrary constants
+[331]: Example:
+For a = 1, c = 4, T = 5, R₀ = 2 (seed); generate 10 random numbers.  
+[332]: Solution:
+R₀ = 2
+R₁ = Rem[{(1)(2) + 4}/5] = 1
+R₂ = Rem[{(1)(1) + 4}/5] = 0
+R₃ = Rem[{(1)(0) + 4}/5] = 4
+R₄ = Rem[{(1)(4) + 4}/5] = 3
+R₅ = Rem[{(1)(3) + 4}/5] = 2
+R₆ = Rem[{(1)(2) + 4}/5] = 1
+R₇ = Rem[{(1)(1) + 4}/5] = 0
+R₈ = Rem[{(1)(0) + 4}/5] = 4
+R₉ = Rem[{(1)(4) + 4}/5] = 3
+R₁₀ = Rem[{(1)(3) + 4}/5] = 2  
+[333]: Generation of a Random Observation Following a Certain Distribution
+[334]: 1. For a Simple Discrete Distribution, we use the allocation method (see the previous examples).  
+[335]: 2. For Continuous Distribution, we use the inverse method if and only if the distribution is reversible (see the following examples).
+[336]: Example 1:
+Generate a random observation from the uniform distribution between a and b, i.e., U(a, b).  
+[338]: Most Important Example:
+Generate Random Observations from Exponential distribution with mean μ.  
+[341]: Illustrative Example: Sales of Life Insurance Problem
+[342]: From the previous sales history, each time a house call is made:  
+[343]: 50% not interested in purchasing  
+[344]: 50% willing for further discussions
+[345]: After discussions:  
+[346]: ½ of the time the visit will result in “No Sale”  
+[347]: 1/3 of the time will result in a sale of a 10,000 L.E. policy  
+[348]: 1/6 of the time will result in a sale of a 20,000 L.E. policy
+[349]: Using a simulated sample of 20 visits, determine the probability that a sale is made and the expected policy value for each policy, assuming a sale is made.  
+[351]: Theoretical Solution:  
+[352]: Probability of No Sale = 0.75  
+[353]: Probability of Sale = 0.25  
+[354]: Probability(10000 policy | sale) = 2/3 ≈ 0.667  
+[355]: Probability(20000 policy | sale) = 1/3 ≈ 0.333
+[356]: Expected value = 0.667 × 10000 + 0.333 × 20000 = 13,333 L.E.  
+[357]: Simulation of 20 insurance calls:
+[358]: 
+From the table, 13 of the visits will result in a “No sale”.
+P(No sale) = 13/20 = 0.65
+Given Sale, we have 4×10,000 and 3×20,000 policies sold, so:
+P(10000) = 4/7 ≈ 0.5714
+P(20000) = 3/7 ≈ 0.4286  
+[359]: The Expected Value = 0.5714 × 10000 + 0.4286 × 20000 = 14,286 L.E.  
+[361]: Comparison between Theoretical & Simulation (Validation):  
+[362]: Time Management Methods
+[363]: There are two time references used in simulation:  
+[364]: 1. Simulation Time:
+The period of time simulated by the model – 30 min., 5 years, 100 years, whatever interval the researcher is interested in. This time is reset to zero at the beginning of the simulation run and acts as a counter to the number of simulation time units.  
+[365]: 2. Run Time:
+The time that the computer takes to simulate the period of interest.
+[366]: We have two ways for time changes (Periodic & Event Scan):  
+[367]: The Periodic Scan or Fixed Time Increment Technique:
+[368]: In this technique, the simulation clock is adjusted by one predetermined uniform unit and then examines the system to determine whether any events occurred during that interval. If any occurred, the event or events are simulated; otherwise, no action is taken.  
+[369]: The simulation clock is then advanced another unit, and the process is repeated. In this technique, the exact time of the occurrence of a particular event is largely ignored. All events that occur during a given interval are treated as if these events occurred at the end of that interval.  
+[370]: Example:
+Consider the simulation of a single-bay service station for a period of ten minutes. Assume that the system is empty at the beginning and at the end of the period. Assume also that four customers are serviced; their arrivals occur at simulation times 1.8, 3.2, 6.1, and 7.4, and that service completions occur at simulation times 2.6, 4.8, 7.3, and 8.1.  
+[371]: If a time interval of one minute is used, arrival events are denoted by A₁, A₂, A₃, and A₄, while completion events are denoted by C₁, C₂, C₃, and C₄ (see the following figure).  
+[372]: C₃ and A₄ are both considered to have occurred at clock time 8.0; although C₃ actually occurred before A₄.  
+[374]: The problem of periodic scan is that events separated in time appear to occur simultaneously. In this example, at time period S₇ – S₈, the system appears to be idle while actually it is not.  
+[375]: The big problem is to determine the length of the interval to be used. The time increment used in the periodic scan approach should be as small as possible to minimize the possibility of lost information. But the smaller the time unit, the longer the number of calculations necessary to complete the simulation. 
+[376]: Thus, the actual run time of the simulation and hence the cost of simulation is increased. So there is a trade-off between precision and maximum run time.  
+[377]: The Event Scan
+[378]: In this technique, the clock is advanced by the amount necessary to trigger the occurrence of the next event. Thus, the time advance intervals are of variable lengths.  
+[379]: While some information can be lost in the periodic scan, the event scan avoids this problem because the clock is advanced only to the next occurrence time.  
+[380]: In periodic scan, the exact occurrence time of events is not known because each event is treated as if it occurred at the end of the time interval in which it occurred. This problem is overcome in the Event Scan approach.  
+[381]: Example
+A bank of machines in a manufacturing shop breaks down according to the following interarrival time distribution. The time it takes one repair person to complete the repair of a machine is given in the service time distribution.  
+[384]: Simulate the breakdown of 5 machines. Calculate the average machine downtime using two repair persons and the following random numbers sequence. Both repair persons cannot work on the same machine.  
+[386]: R.N.: 30, 81, 02, 91, 51, 08, 28, 44, 86, 84, 29, 08, 37, 34, 99.  
+[392]: Example for a Continuous Distribution:
+[393]: Simulate a system M/M/1 with arrival rate λ = 20/h and service rate μ = 25/h. Assuming the system is empty at time zero.  
+[394]: Using:  
+[395]: 1. Time Scan (Periodic Scan)  
+[396]: 2. Event Scan
+[397]: Solution:  
+[398]: 1. Using Time Scan:
+[399]: P(arrival in one minute period) = 1 – e^(-λt) = 1 – e^(-1/3 * 1) ≈ 0.281
+P(departure in one minute period) = 1 – e^(-μt) = 1 – e^(-5/12 * 1) ≈ 0.341  
+[400]: So let:  
+[401]: 0 ≤ R.N. ≤ 0.281 → Arrival  
+[402]: 0 ≤ R.N. ≤ 0.341 → Departure
+[405]: 2. Using Event Scan (Event Driven):
+[406]: The time until the next arrival is given by: 
+[407]: 
+The time until the next departure is given by: t_dep = - (1/μ) ln(1 – R)  
+[411]: Example for Discrete Distribution:
+[412]: Two-stage assembly lines are producing a large product. There is no room in between the two lines; so the output of the first line is fed to the second line directly, else the first line must wait until the second line is free. The service distributions for both lines are given below:  
+[414]: Total service time for 1st line = 470 seconds
+Total service time for 2nd line = 430 seconds  
+[416]: Output rate average = 600 / 10 = 60 seconds
+Utilization of 1st line = 470 / 530 ≈ 88.7%
+Utilization of 2nd line = 430 / 550 ≈ 78.2%

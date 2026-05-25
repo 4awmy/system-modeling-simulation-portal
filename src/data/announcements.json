@@ -1,0 +1,23 @@
+[
+  {
+    "id": "ann_1",
+    "date": "2026-05-22",
+    "title": "Portal Reframed for System Modeling & Simulation",
+    "content": "The portal now follows the curriculum chronologically and includes week-linked solved problems, trace tables, and simulation demos.",
+    "pinned": true
+  },
+  {
+    "id": "ann_2",
+    "date": "2026-05-22",
+    "title": "New Applications Tab (RNG First)",
+    "content": "A dedicated Applications tab has been added. It starts with random-number generation methods then extends to queue, inventory, repairman, and assembly-line applications.",
+    "pinned": true
+  },
+  {
+    "id": "ann_3",
+    "date": "2026-05-22",
+    "title": "AI Tutor Updated for Simulation Curriculum",
+    "content": "AI tutor prompts were rewritten for simulation topics and step-by-step problem guidance. Set VITE_GEMINI_API_KEY to enable live model responses.",
+    "pinned": false
+  }
+]
