@@ -11,7 +11,7 @@ interface Message {
 const ts = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 const WELCOME =
-  "Hello! I'm your AI System Modeling & Simulation Tutor for Dr. Gouda Ismail's course. Ask me to explain a topic, solve a curriculum problem step-by-step, or build a trace table.";
+  "Hello! I'm your AI System Modeling & Simulation Tutor for Dr. Farouk Shaaban's course. Ask me to explain a topic, solve a curriculum problem step-by-step, or build a trace table.";
 
 export const AITutorSim: React.FC = () => {
   const idRef = useRef(1);
@@ -59,7 +59,7 @@ export const AITutorSim: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
+    const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string | undefined) || "AIzaSyCNcm6lijTv44uiIqDZ-jYXgyhSmBsJKog";
     if (!apiKey) {
       setLoading(false);
       setError('AI API key is missing. Set VITE_GEMINI_API_KEY in your environment to enable live tutoring.');
@@ -81,7 +81,7 @@ export const AITutorSim: React.FC = () => {
               parts: [
                 {
                   text:
-                    "You are Dr. Gouda Ismail's AI assistant for System Modeling and Simulation at AAST. Focus on chronological curriculum teaching, random number methods, Monte Carlo, time-driven/event-driven simulation, queueing, inventory lead time, repairman models, assembly lines, and Chi-square/KS validation. Solve problems step-by-step with clean trace-table style explanations.",
+                    "You are Dr. Farouk Shaaban's AI assistant for System Modeling and Simulation at AAST. Focus on chronological curriculum teaching, random number methods, Monte Carlo, time-driven/event-driven simulation, queueing, inventory lead time, repairman models, assembly lines, and Chi-square/KS validation. Solve problems step-by-step with clean trace-table style explanations.",
                 },
               ],
             },
@@ -124,7 +124,7 @@ export const AITutorSim: React.FC = () => {
               <Bot className="h-5 w-5 text-aast-gold" />
               <div>
                 <p className="text-xs font-black uppercase text-aast-gold">AI Simulation Tutor</p>
-                <p className="text-[10px] text-slate-300">Assistant to Dr. Gouda Ismail</p>
+                <p className="text-[10px] text-slate-300">Assistant to Dr. Farouk Shaaban</p>
               </div>
             </div>
             <div className="flex gap-1">

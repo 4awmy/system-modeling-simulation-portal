@@ -140,7 +140,7 @@ function App() {
             College of Computing and Information Technology • System Modeling & Simulation Teaching Portal
           </p>
           <p className="text-[10px] text-slate-400">
-            © {new Date().getFullYear()} Dr. Gouda Ismail. Designed for curriculum teaching, trace-based simulation, and solved problems.
+            © {new Date().getFullYear()} Dr. Farouk Shaaban. Designed for curriculum teaching, trace-based simulation, and solved problems.
           </p>
         </div>
       </footer>

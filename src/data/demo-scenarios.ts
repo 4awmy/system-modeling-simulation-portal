@@ -517,11 +517,11 @@ export const demoScenarioMap: Record<string, TimelineScenario> = {
   w2: rnGenerationScenario,
   w3: monteCarloScenario,
   w4: accidentScenario,
-  w6: eventVsPeriodicScenario,
   w7: pumpQueueScenario,
   w9: inventoryScenario,
   w11: assemblyLineScenario,
-  w12: repairmanScenario
+  w12: eventVsPeriodicScenario,
+  w13: repairmanScenario
 };
 
 export default demoScenarioMap;

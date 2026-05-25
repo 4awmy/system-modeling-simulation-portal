@@ -1,14 +1,14 @@
-# Complexity Analysis: AI Tutor Agent for AAST Computer Graphics
+# Complexity Analysis: AI Tutor Agent for AAST System Modeling & Simulation
 
-Integrating an **AI Tutor Agent** into the AAST Computer Graphics Learning Portal presents a unique set of technical opportunities and implementation challenges. This document provides a formal analysis of the architecture, algorithmic complexity, integration methods, costs, and feasibility of deploying such an agent.
+Integrating an **AI Tutor Agent** into the AAST System Modeling & Simulation Learning Portal presents a unique set of technical opportunities and implementation challenges. This document provides a formal analysis of the architecture, algorithmic complexity, integration methods, costs, and feasibility of deploying such an agent.
 
 ---
 
 ## 1. Core Objectives of the AI Agent
 
-The AI Tutor is intended to serve as a 24/7 teaching assistant for Dr. Gouda Ismail's course. Its key capabilities would include:
-1. **Syllabus and Concept Explanation**: Explaining complex terms (e.g., raster vs. random scan displays, geometric primitives, parametric continuity, 3D projections) based strictly on AAST slides.
-2. **Algorithm Tracing & Walkthroughs**: Guiding students through DDA, Bresenham, Midpoint Circle, and Ellipse algorithm derivations.
+The AI Tutor is intended to serve as a 24/7 teaching assistant for Dr. Farouk Shaaban's course. Its key capabilities would include:
+1. **Syllabus and Concept Explanation**: Explaining complex terms (e.g., congruential methods, Monte Carlo coin tosses, periodic scan vs event scan clock mechanics, M/M/1 queuing metrics) based strictly on AAST slides.
+2. **Algorithm Tracing & Walkthroughs**: Guiding students through LCG calculations, Monte Carlo demand maps, and queue service trace tables.
 3. **Step-by-Step Exercise Hinting**: Validating student trace values and providing conceptual hints (e.g., *"Look at your decision parameter. Since $P_k \geq 0$, did you update $y_{k+1}$ correctly?"*) rather than giving away complete solutions.
 
 ---
@@ -30,7 +30,7 @@ graph TD
 ```
 
 ### A. Retrieval-Augmented Generation (RAG) for Syllabus Alignment
-To ensure the AI explains topics exactly as taught by Dr. Gouda, we cannot rely solely on the general knowledge of LLMs.
+To ensure the AI explains topics exactly as taught by Dr. Farouk Shaaban, we cannot rely solely on the general knowledge of LLMs.
 *   **Vectorization**: Extract text, equations, and structures from the 10 course PDFs (`lec1.pdf` to `lec11.pdf`).
 *   **Embedding Pipeline**: Convert document chunks into vectors (using models like Google's `text-embedding-004`) and store them in a local vector database (e.g., ChromaDB, FAISS) or a cloud-based service (Pinecone).
 *   **Retrieval (Semantic Search)**: When a student asks, *"What is the difference between C1 and G1 continuity?"*, the backend queries the vector store, retrieves slides from **Week 08 - Spline Curves**, and prepends this context to the LLM prompt.
@@ -69,7 +69,7 @@ A naive chatbot would immediately write the entire table for a student's graded 
 For the current deployment on **GitHub Pages**, we recommend starting with **Option A (Simulated AI Tutor)** directly in the frontend, combined with a blueprint for upgrading to **Option B**:
 
 1.  **Phase 1 (Static MVP - Current)**: Embed an interactive chat interface that uses a local knowledge search (parsing the JSON files of lectures and exercises). It gives students instant, accurate answers about course structures, equations, and specific homework problems without requiring any cloud hosting.
-2.  **Phase 2 (Cloud Integration - Optional)**: Dr. Gouda can host a small Node/Express server on a free tier platform (like Render or Vercel) and provide a `GEMINI_API_KEY`. The frontend chat component can switch its target URL to this proxy server to enable full natural language discussions and dynamic explanations.
+2.  **Phase 2 (Cloud Integration - Optional)**: Dr. Farouk Shaaban can host a small Node/Express server on a free tier platform (like Render or Vercel) and provide a `GEMINI_API_KEY`. The frontend chat component can switch its target URL to this proxy server to enable full natural language discussions and dynamic explanations.
 
 ---
 

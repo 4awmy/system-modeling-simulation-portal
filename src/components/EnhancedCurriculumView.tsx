@@ -212,7 +212,7 @@ export const EnhancedCurriculumView: React.FC<EnhancedCurriculumViewProps> = ({
                 <div key={exp.id} className="bg-slate-900 border border-slate-800 text-slate-100 p-5 rounded-2xl space-y-3 shadow-inner font-sans">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                     <h4 className="text-xs font-black text-aast-gold uppercase tracking-wider">{exp.title}</h4>
-                    <span className="text-[9px] font-mono text-slate-500">Dr. Gouda Ismail Formulation</span>
+                    <span className="text-[9px] font-mono text-slate-500">Dr. Farouk Shaaban Formulation</span>
                   </div>
                   <div className="text-xs text-slate-300 leading-relaxed font-medium whitespace-pre-wrap overflow-x-auto custom-scrollbar">
                     {exp.content}

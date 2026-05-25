@@ -1,30 +1,31 @@
 [
   {
     "id": "w2",
-    "type": "rn_mapping",
-    "title": "RN Interval Mapping (Demand)",
-    "description": "Fill the trace table using mapping 00-09=>0, 10-59=>1, 60-99=>2.",
-    "hint": "Map each RN to its cumulative interval before writing the demand result.",
+    "type": "lcg_congruential",
+    "title": "LCG Random Generator Trace",
+    "description": "Calculate states for congruential generator R_{i+1} = (a * R_i + c) mod T. Parameters: a=1, c=4, T=5, seed R_0=2. Normalized output U_i = R_i / T.",
+    "hint": "LCG recurrence calculates remainder of division by T. Target: a=1, c=4, T=5.",
     "columns": [
-      { "key": "rn", "label": "RN (00-99)" },
-      { "key": "interval", "label": "Interval" },
-      { "key": "outcome", "label": "Demand" }
+      { "key": "x_i", "label": "State R_i" },
+      { "key": "term", "label": "(a*R_i + c)" },
+      { "key": "x_next", "label": "Next R_{i+1}" },
+      { "key": "u_next", "label": "Normalized U_{i+1}" }
     ],
     "rows": [
-      { "step": 1, "values": { "rn": 8, "interval": "00-09", "outcome": 0 } },
-      { "step": 2, "values": { "rn": 42, "interval": "10-59", "outcome": 1 } },
-      { "step": 3, "values": { "rn": 90, "interval": "60-99", "outcome": 2 } }
+      { "step": 1, "values": { "x_i": 2, "term": 6, "x_next": 1, "u_next": 0.2 } },
+      { "step": 2, "values": { "x_i": 1, "term": 5, "x_next": 0, "u_next": 0.0 } },
+      { "step": 3, "values": { "x_i": 0, "term": 4, "x_next": 4, "u_next": 0.8 } }
     ]
   },
   {
     "id": "w3",
     "type": "monte_carlo",
-    "title": "Monte Carlo Coin Trace",
-    "description": "Use RN<0.5 => Head, otherwise Tail.",
-    "hint": "Convert each RN to H/T and count totals.",
+    "title": "Monte Carlo Coin Flips",
+    "description": "Simulate fair coin trials. Random numbers: RN < 0.5 is Head, otherwise Tail.",
+    "hint": "Check bounds: 0.0 <= RN < 0.5 is Head; 0.5 <= RN < 1.0 is Tail.",
     "columns": [
       { "key": "rn", "label": "RN" },
-      { "key": "result", "label": "Result" }
+      { "key": "result", "label": "Outcome" }
     ],
     "rows": [
       { "step": 1, "values": { "rn": 0.24, "result": "Head" } },
@@ -33,15 +34,32 @@
     ]
   },
   {
+    "id": "w4",
+    "type": "discrete_mapping",
+    "title": "Traffic Light Observations Mapping",
+    "description": "Map single-digit random numbers (0-9) to traffic colors. Distribution: Green 40% (digits 0-3), Yellow 10% (digit 4), Red 50% (digits 5-9).",
+    "hint": "Check which digit subrange the random number falls into: 0-3 Green, 4 Yellow, 5-9 Red.",
+    "columns": [
+      { "key": "rn", "label": "RN Digit" },
+      { "key": "class", "label": "Digit Interval" },
+      { "key": "color", "label": "Light Color" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "rn": 6, "class": "5-9", "color": "Red" } },
+      { "step": 2, "values": { "rn": 3, "class": "0-3", "color": "Green" } },
+      { "step": 3, "values": { "rn": 5, "class": "5-9", "color": "Red" } }
+    ]
+  },
+  {
     "id": "w5",
     "type": "multi_stage",
-    "title": "Multi-Stage Insurance Trace",
-    "description": "Stage1: RN1<=49 => Interested. Stage2 if interested: 00-59 No Sale, 60-79 Small, 80-99 Large.",
-    "hint": "Do not execute stage 2 when stage 1 says not interested.",
+    "title": "Life Insurance Sales Multi-Stage Decision",
+    "description": "Trace customer decision trees. Stage 1: RN1 <= 49 -> Interested (50%). Stage 2 (if interested): RN2 <= 59 -> No Sale (60%); 60-79 -> Small Policy (20%); 80-99 -> Large Policy (20%).",
+    "hint": "If RN1 >= 50, client is Not Interested, and Stage 2 is skipped (fill '-' and 'No Interest').",
     "columns": [
       { "key": "rn1", "label": "RN1 Interest" },
-      { "key": "stage1", "label": "Stage 1" },
-      { "key": "rn2", "label": "RN2 Type" },
+      { "key": "stage1", "label": "Stage 1 Result" },
+      { "key": "rn2", "label": "RN2 Policy Type" },
       { "key": "final", "label": "Final Outcome" }
     ],
     "rows": [
@@ -51,46 +69,67 @@
   },
   {
     "id": "w6",
-    "type": "time_event_scan",
-    "title": "Periodic vs Event Scan Timeline",
-    "description": "Arrival at t=3 and departure at t=8.",
-    "hint": "Periodic checks every tick; event scan checks only event times.",
+    "type": "variance_reduction",
+    "title": "Antithetic Variates Calculation",
+    "description": "Calculate variance reduction complementary pairs for X = r^2. Compute complement r' = 1 - r, and outcomes X and X'. Find the antithetic average.",
+    "hint": "Complement r' is 1 - r. X is r squared, X' is r' squared. Average is (X + X') / 2.",
     "columns": [
-      { "key": "method", "label": "Method" },
-      { "key": "checks", "label": "Check Times" }
+      { "key": "ri", "label": "RN r_i" },
+      { "key": "comp_ri", "label": "Complement r'_i" },
+      { "key": "x", "label": "Outcome X" },
+      { "key": "x_comp", "label": "Complement X'" },
+      { "key": "avg", "label": "Antithetic Average" }
     ],
     "rows": [
-      { "step": 1, "values": { "method": "Periodic", "checks": "0,1,2,3,4,5,6,7,8" } },
-      { "step": 2, "values": { "method": "Event", "checks": "3,8" } }
+      { "step": 1, "values": { "ri": 0.2, "comp_ri": 0.8, "x": 0.04, "x_comp": 0.64, "avg": 0.34 } },
+      { "step": 2, "values": { "ri": 0.5, "comp_ri": 0.5, "x": 0.25, "x_comp": 0.25, "avg": 0.25 } }
     ]
   },
   {
     "id": "w7",
     "type": "queue_trace",
-    "title": "Queue Waiting Trace",
-    "description": "Fill queue start/depart/wait values.",
-    "hint": "Start time is max(arrival, previous departure).",
+    "title": "Queue Transit Time Trace",
+    "description": "Trace customer transit delays in a FIFO single-server queue. Compute Start Service, Departure Time, and Waiting Time. Formula: Start_i = max(Arrival_i, Departure_{i-1}). Delay = Start - Arrival.",
+    "hint": "Customer cannot start service until the server is free from the previous customer.",
     "columns": [
-      { "key": "arrival", "label": "Arrival" },
-      { "key": "start", "label": "Start" },
-      { "key": "depart", "label": "Depart" },
-      { "key": "wait", "label": "Wait" }
+      { "key": "arrival", "label": "Arrival Time" },
+      { "key": "service", "label": "Service Time" },
+      { "key": "start", "label": "Start Service" },
+      { "key": "depart", "label": "Departure" },
+      { "key": "wait", "label": "Waiting Time" }
     ],
     "rows": [
-      { "step": 1, "values": { "arrival": 1, "start": 1, "depart": 4, "wait": 0 } },
-      { "step": 2, "values": { "arrival": 2, "start": 4, "depart": 6, "wait": 2 } }
+      { "step": 1, "values": { "arrival": 1, "service": 3, "start": 1, "depart": 4, "wait": 0 } },
+      { "step": 2, "values": { "arrival": 2, "service": 2, "start": 4, "depart": 6, "wait": 2 } }
+    ]
+  },
+  {
+    "id": "w8",
+    "type": "inverse_transform",
+    "title": "Continuous Inverse Transform CDF Mapping",
+    "description": "Generate continuous observations. 1) Uniform distribution U(5, 15): Y = 5 + 10 * r. 2) Exponential distribution rate lambda=2: X = -0.5 * ln(1 - r). Use four decimals.",
+    "hint": "Uniform: a + r*(b-a). Exponential: - (1/lambda) * ln(1-r).",
+    "columns": [
+      { "key": "rn", "label": "RN r" },
+      { "key": "exponential_x", "label": "Exponential X" },
+      { "key": "uniform_y", "label": "Uniform Y" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "rn": 0.0, "exponential_x": 0, "uniform_y": 5 } },
+      { "step": 2, "values": { "rn": 0.5, "exponential_x": 0.3466, "uniform_y": 10 } },
+      { "step": 3, "values": { "rn": 0.8, "exponential_x": 0.8047, "uniform_y": 13 } }
     ]
   },
   {
     "id": "w9",
     "type": "inventory_trace",
-    "title": "Inventory Lead-Time Trace",
-    "description": "Track stock and order trigger under reorder point rule.",
-    "hint": "Trigger an order when stock <= reorder point and no pending order exists.",
+    "title": "Inventory Reorder Point (RP, Q) Trace",
+    "description": "Trace stock updates under RP=5, order quantity Q=10 policy. Order placed when Ending Stock <= RP.",
+    "hint": "Trigger order if Ending Stock <= 5. Outstanding replenishment arrives after lead time delay.",
     "columns": [
       { "key": "demand", "label": "Demand" },
-      { "key": "stock_after", "label": "Stock After Demand" },
-      { "key": "order", "label": "Order Action" }
+      { "key": "stock_after", "label": "Ending Stock" },
+      { "key": "order", "label": "Replenish Action" }
     ],
     "rows": [
       { "step": 1, "values": { "demand": 2, "stock_after": 10, "order": "None" } },
@@ -99,21 +138,73 @@
     ]
   },
   {
-    "id": "w8",
-    "type": "validation",
-    "title": "Chi-Square Table Build",
-    "description": "Compute each (Oi-Ei)^2/Ei term.",
-    "hint": "Fill term-by-term before summing total X^2.",
+    "id": "w10",
+    "type": "reliability_queue",
+    "title": "Machine Breakdown & Repair Shop Trace",
+    "description": "Trace failure repairs under 1 repairman. Repair time is 2 hours. Compute when repair starts, ends, and machine downtime. Repair Start_i = max(FailTime_i, RepairEnd_{i-1}).",
+    "hint": "Repair shop operates as a FIFO queue. Downtime = Waiting in queue + TTR.",
     "columns": [
-      { "key": "oi", "label": "Oi" },
-      { "key": "ei", "label": "Ei" },
-      { "key": "term", "label": "(Oi-Ei)^2/Ei" }
+      { "key": "fail_time", "label": "Breakdown Clock" },
+      { "key": "repair_start", "label": "Repair Start" },
+      { "key": "repair_end", "label": "Repair End" },
+      { "key": "wait_time", "label": "Downtime (h)" }
     ],
     "rows": [
-      { "step": 1, "values": { "oi": 12, "ei": 15, "term": 0.6 } },
-      { "step": 2, "values": { "oi": 18, "ei": 15, "term": 0.6 } },
-      { "step": 3, "values": { "oi": 20, "ei": 15, "term": 1.6667 } },
-      { "step": 4, "values": { "oi": 10, "ei": 15, "term": 1.6667 } }
+      { "step": 1, "values": { "fail_time": 10, "repair_start": 10, "repair_end": 12, "wait_time": 2 } },
+      { "step": 2, "values": { "fail_time": 11, "repair_start": 12, "repair_end": 14, "wait_time": 3 } }
+    ]
+  },
+  {
+    "id": "w11",
+    "type": "assembly_blocking",
+    "title": "Tandem Assembly Line Blocking Trace",
+    "description": "Trace Bob (Stage 1, takes 3 min/item) and Ray (Stage 2, takes 5 min/item). Buffer capacity is 0. If Bob finishes item i+1 before Ray completes item i, Bob is blocked.",
+    "hint": "Ray starts item i only when Bob finishes it and Ray is free. Bob finishes item i+1 but is blocked until Ray finishes item i.",
+    "columns": [
+      { "key": "bob_start", "label": "Bob Start" },
+      { "key": "bob_end", "label": "Bob End" },
+      { "key": "ray_start", "label": "Ray Start" },
+      { "key": "ray_end", "label": "Ray End" },
+      { "key": "bob_blocked", "label": "Bob Blocked (m)" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "bob_start": 0, "bob_end": 3, "ray_start": 3, "ray_end": 8, "bob_blocked": 0 } },
+      { "step": 2, "values": { "bob_start": 3, "bob_end": 6, "ray_start": 8, "ray_end": 13, "bob_blocked": 2 } }
+    ]
+  },
+  {
+    "id": "w12",
+    "type": "clock_scan_comparison",
+    "title": "Clock Scan Event Processing Timeline",
+    "description": "Trace when arrival/departure events are processed under Periodic Scan (dt = 1.0 min) vs Event Scan clock. Compare event times 1.8 and 3.2.",
+    "hint": "Periodic scan advances clock by 1.0; events occurring in interval (k-1, k] are processed at end-time k. Event scan processes them immediately.",
+    "columns": [
+      { "key": "time", "label": "Actual Event Time" },
+      { "key": "scan_type", "label": "Scan Type" },
+      { "key": "processed_time", "label": "Processed Clock Time" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "time": 1.8, "scan_type": "Event Scan", "processed_time": 1.8 } },
+      { "step": 2, "values": { "time": 1.8, "scan_type": "Periodic Scan", "processed_time": 2.0 } },
+      { "step": 3, "values": { "time": 3.2, "scan_type": "Event Scan", "processed_time": 3.2 } },
+      { "step": 4, "values": { "time": 3.2, "scan_type": "Periodic Scan", "processed_time": 4.0 } }
+    ]
+  },
+  {
+    "id": "w13",
+    "type": "continuous_mm1",
+    "title": "M/M/1 Time Scan Transition Probability",
+    "description": "Calculate continuous scan transition probability for arrival rate lambda = 20/h and service rate mu = 25/h. P(Arrival in dt) = 1 - e^(-lambda * dt). Find probabilities for dt=1 min and dt=2 min (use four decimals).",
+    "hint": "dt in hours is minutes / 60. Exponent is lambda * dt. Probability is 1 - exp(-exponent).",
+    "columns": [
+      { "key": "lambda_per_hr", "label": "Arrival Rate (h)" },
+      { "key": "dt_mins", "label": "Interval dt (m)" },
+      { "key": "lambda_dt", "label": "Exponent" },
+      { "key": "prob_arrival", "label": "P(Arrival)" }
+    ],
+    "rows": [
+      { "step": 1, "values": { "lambda_per_hr": 20, "dt_mins": 1, "lambda_dt": 0.3333, "prob_arrival": 0.2835 } },
+      { "step": 2, "values": { "lambda_per_hr": 30, "dt_mins": 2, "lambda_dt": 1.0000, "prob_arrival": 0.6321 } }
     ]
   }
 ]

@@ -10,7 +10,7 @@ export const enhancedCurriculumWeeks = {
     shortDescription: "Master the foundational concepts that underpin all discrete-event simulation: system definition, state variables, entities, events, and the Planning-Modeling-Validation-Application (PMVA) problem-solving cycle.",
 
     learningOutcomes: [
-      "Define system, state, entity, event, and activity with precision using Dr. Ismail's definitions",
+      "Define system, state, entity, event, and activity with precision using Dr. Farouk Shaaban's definitions",
       "Classify systems by behavior (natural/man-made, deterministic/stochastic, discrete/continuous)",
       "Understand the PMVA cycle: Planning → Modeling → Validation → Application",
       "Identify minimal state variables needed to describe a system",

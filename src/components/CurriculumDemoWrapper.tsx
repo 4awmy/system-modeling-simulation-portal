@@ -39,7 +39,7 @@ export const CurriculumDemoWrapper: React.FC<CurriculumDemoWrapperProps> = ({
       case 'w5':
         return <MultiStageDecisionDemo />;
       case 'w6':
-      case 'w13':
+      case 'w12':
         return <TimeEventScanDemo />;
       case 'w7':
       case 'w10':
@@ -50,7 +50,7 @@ export const CurriculumDemoWrapper: React.FC<CurriculumDemoWrapperProps> = ({
         return <InventoryLeadTimeDemo />;
       case 'w11':
         return <AssemblyLineDemo />;
-      case 'w12':
+      case 'w13':
         return <RepairmanDemo />;
       default:
         return null;
@@ -88,7 +88,7 @@ export const CurriculumDemoWrapper: React.FC<CurriculumDemoWrapperProps> = ({
             Interactive Lab & Visualizer
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Hands-on simulation playground corresponding to Dr. Gouda Ismail's lecture material.
+            Hands-on simulation playground corresponding to Dr. Farouk Shaaban's lecture material.
           </p>
         </div>
 

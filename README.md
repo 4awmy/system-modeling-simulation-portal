@@ -2,7 +2,7 @@
 
 # 📐 AAST System Modeling & Simulation Portal
 
-### Interactive Learning Portal for Dr. Gouda Ismail's System Modeling & Simulation Course
+### Interactive Learning Portal for Dr. Farouk Shaaban's System Modeling & Simulation Course
 
 *Built for the Arab Academy for Science, Technology & Maritime Transport (AAST)*
 
@@ -21,7 +21,7 @@
 
 ## 📖 About
 
-The **AAST System Modeling & Simulation Learning Portal** is a comprehensive, interactive educational platform designed to support college students throughout Dr. Gouda Ismail's System Modeling & Simulation course. It integrates complete word-for-word course curriculum readings (Weeks 1-13) with interactive simulation labs, step-by-step trace tables, solved practice problems, and an active AI teaching assistant.
+The **AAST System Modeling & Simulation Learning Portal** is a comprehensive, interactive educational platform designed to support college students throughout Dr. Farouk Shaaban's System Modeling & Simulation course. It integrates complete word-for-word course curriculum readings (Weeks 1-13) with interactive simulation labs, step-by-step trace tables, solved practice problems, and an active AI teaching assistant.
 
 The portal features a **password-protected Instructor Dashboard** that allows the instructor to publish announcements, customize syllabus details, modify exercises, and trigger Git commits directly from the browser during local development.
 
@@ -205,7 +205,7 @@ The repository includes a GitHub Actions pipeline at `.github/workflows/deploy.y
 
 **🏛️ Arab Academy for Science, Technology & Maritime Transport (AAST)**
 **College of Computing and Information Technology**
-**Dr. Gouda Ismail — System Modeling & Simulation**
+**Dr. Farouk Shaaban — System Modeling & Simulation**
 
 </div>
 
