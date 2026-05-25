@@ -59,7 +59,7 @@ export const AITutorSim: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string | undefined) || "AIzaSyCNcm6lijTv44uiIqDZ-jYXgyhSmBsJKog";
+    const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string | undefined) || "AIzaSyB-7c7923P8etcmRLFkYIny_wN4pE-h_x8";
     if (!apiKey) {
       setLoading(false);
       setError('AI API key is missing. Set VITE_GEMINI_API_KEY in your environment to enable live tutoring.');
@@ -85,7 +85,7 @@ export const AITutorSim: React.FC = () => {
                 },
               ],
             },
-            generationConfig: { temperature: 0.6, maxOutputTokens: 1200 },
+            generationConfig: { temperature: 0.6, maxOutputTokens: 8192 },
           }),
         }
       );
