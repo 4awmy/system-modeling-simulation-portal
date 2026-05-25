@@ -108,6 +108,7 @@ function App() {
             exercises={exercises} 
             selectedExerciseId={selectedExerciseId}
             setSelectedExerciseId={setSelectedExerciseId}
+            setExercises={setExercises}
           />
         )}
 

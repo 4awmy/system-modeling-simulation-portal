@@ -168,7 +168,7 @@ export const TimeEventScanDemo: React.FC = () => {
   );
 };
 
-export const QueueSimulatorDemo: React.FC = () => {
+const QueueSimulatorTrace: React.FC = () => {
   const [customers, setCustomers] = useState<number>(10);
   const rows = useMemo(() => {
     let clock = 0;
@@ -194,8 +194,8 @@ export const QueueSimulatorDemo: React.FC = () => {
   }, [rows]);
 
   return (
-    <div className={cardClass}>
-      <h4 className="text-sm font-black text-aast-navy">Single-Server Queue (Trace)</h4>
+    <div className="space-y-3">
+      <h4 className="text-sm font-black text-aast-navy">Single-Server Queue (FIFO Trace)</h4>
       <div>
         <label className="text-[11px] font-semibold text-slate-600">Customers</label>
         <input type="number" min={1} max={100} value={customers} onChange={(e) => setCustomers(Math.max(1, Number(e.target.value) || 1))} className="mt-1 w-28 px-2 py-1 text-xs border border-slate-200 rounded" />
@@ -225,8 +225,44 @@ export const QueueSimulatorDemo: React.FC = () => {
         </table>
       </div>
       <p className="text-xs text-slate-700">
-        Avg Wait: <strong>{metrics.avgWait.toFixed(2)}</strong> | Utilization: <strong>{(metrics.util * 100).toFixed(1)}%</strong>
+        Avg Wait: <strong>{metrics.avgWait.toFixed(2)}</strong> | Server Utilization: <strong>{(metrics.util * 100).toFixed(1)}%</strong>
       </p>
+    </div>
+  );
+};
+
+export const QueueSimulatorDemo: React.FC = () => {
+  const [activeSubTab, setActiveSubTab] = useState<'standard' | 'event_driven'>('standard');
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-4">
+      <div className="flex border-b border-slate-200 bg-slate-50 p-1.5 rounded-lg">
+        <button
+          onClick={() => setActiveSubTab('standard')}
+          className={`flex-1 text-center py-2 text-xs font-bold rounded-md transition ${
+            activeSubTab === 'standard'
+              ? 'bg-white text-aast-navy shadow-sm border border-slate-200/50'
+              : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          FIFO Queue Trace Table
+        </button>
+        <button
+          onClick={() => setActiveSubTab('event_driven')}
+          className={`flex-1 text-center py-2 text-xs font-bold rounded-md transition ${
+            activeSubTab === 'event_driven'
+              ? 'bg-white text-aast-navy shadow-sm border border-slate-200/50'
+              : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          Event-Driven Simulator (M/M/1)
+        </button>
+      </div>
+
+      <div className="transition-all duration-300">
+        {activeSubTab === 'standard' && <QueueSimulatorTrace />}
+        {activeSubTab === 'event_driven' && <EventDrivenQueueDemo />}
+      </div>
     </div>
   );
 };
@@ -758,11 +794,11 @@ export const MidSquarePlayground: React.FC = () => {
 
 // --- COMBINED RNG PLAYGROUND ---
 export const RNGPlayground: React.FC = () => {
-  const [activeSubTab, setActiveSubTab] = useState<'mapping' | 'lcg' | 'midsquare'>('mapping');
+  const [activeSubTab, setActiveSubTab] = useState<'mapping' | 'lcg' | 'midsquare' | 'traffic_light'>('mapping');
 
   return (
     <div className="space-y-4">
-      <div className="flex border-b border-slate-200 bg-slate-50 p-1.5 rounded-lg">
+      <div className="flex flex-wrap border-b border-slate-200 bg-slate-50 p-1.5 rounded-lg">
         <button
           onClick={() => setActiveSubTab('mapping')}
           className={`flex-1 text-center py-2 text-xs font-bold rounded-md transition ${
@@ -793,12 +829,23 @@ export const RNGPlayground: React.FC = () => {
         >
           Mid-Square Method
         </button>
+        <button
+          onClick={() => setActiveSubTab('traffic_light')}
+          className={`flex-1 text-center py-2 text-xs font-bold rounded-md transition ${
+            activeSubTab === 'traffic_light'
+              ? 'bg-white text-aast-navy shadow-sm border border-slate-200/50'
+              : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          Traffic Light Sim
+        </button>
       </div>
 
       <div className="transition-all duration-300">
         {activeSubTab === 'mapping' && <RandomMappingDemo />}
         {activeSubTab === 'lcg' && <LCGPlayground />}
         {activeSubTab === 'midsquare' && <MidSquarePlayground />}
+        {activeSubTab === 'traffic_light' && <TrafficLightDemo />}
       </div>
     </div>
   );
@@ -1311,6 +1358,494 @@ export const AccidentFootballPlayground: React.FC = () => {
 
       <div className="transition-all duration-350">
         {subTab === 'accident' ? <AccidentRiskPlayground /> : <FootballRosterPlayground />}
+      </div>
+    </div>
+  );
+};
+
+// --- TRAFFIC LIGHT SIMULATION ---
+export const TrafficLightDemo: React.FC = () => {
+  const [trials, setTrials] = useState<number>(1000);
+  const [pGreen, setPGreen] = useState<number>(0.40);
+  const [pYellow, setPYellow] = useState<number>(0.10);
+  const [pRed, setPRed] = useState<number>(0.50);
+  const [activeLight, setActiveLight] = useState<'red' | 'green' | 'yellow'>('red');
+  const [isSimulating, setIsSimulating] = useState<boolean>(false);
+
+  const results = useMemo(() => {
+    let greenCount = 0;
+    let yellowCount = 0;
+    let redCount = 0;
+    
+    // Simple LCG
+    let state = 42;
+    const get_rn = () => {
+      state = (1664525 * state + 1013904223) % 4294967296;
+      return state / 4294967296.0;
+    };
+
+    for (let i = 0; i < trials; i++) {
+      const r = get_rn();
+      if (r < pGreen) {
+        greenCount++;
+      } else if (r < pGreen + pYellow) {
+        yellowCount++;
+      } else {
+        redCount++;
+      }
+    }
+
+    const simGreen = greenCount / trials;
+    const simYellow = yellowCount / trials;
+    const simRed = redCount / trials;
+
+    const errGreen = pGreen > 0 ? (Math.abs(pGreen - simGreen) / pGreen) * 100 : 0;
+    const errYellow = pYellow > 0 ? (Math.abs(pYellow - simYellow) / pYellow) * 100 : 0;
+    const errRed = pRed > 0 ? (Math.abs(pRed - simRed) / pRed) * 100 : 0;
+
+    return {
+      green: { count: greenCount, sim: simGreen, err: errGreen },
+      yellow: { count: yellowCount, sim: simYellow, err: errYellow },
+      red: { count: redCount, sim: simRed, err: errRed }
+    };
+  }, [trials, pGreen, pYellow, pRed]);
+
+  // Run visual simulation loop
+  const triggerSimulation = () => {
+    setIsSimulating(true);
+    let count = 0;
+    const interval = setInterval(() => {
+      const lights: ('red' | 'green' | 'yellow')[] = ['red', 'green', 'yellow'];
+      setActiveLight(lights[Math.floor(Math.random() * 3)]);
+      count++;
+      if (count > 10) {
+        clearInterval(interval);
+        setIsSimulating(false);
+        // Set final light according to final ratio
+        const r = Math.random();
+        if (r < pGreen) setActiveLight('green');
+        else if (r < pGreen + pYellow) setActiveLight('yellow');
+        else setActiveLight('red');
+      }
+    }, 150);
+  };
+
+  const cppCode = `#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <cstdlib>
+
+using namespace std;
+
+int main() {
+    int trials;
+    cout << "Enter number of trials: ";
+    if (!(cin >> trials)) return 1;
+
+    double p_green = 0.40;
+    double p_yellow = 0.10;
+    double p_red = 0.50;
+
+    int green = 0, yellow = 0, red = 0;
+    
+    // Seed random number generator
+    srand(42);
+
+    for (int i = 0; i < trials; i++) {
+        double r = (double)rand() / RAND_MAX;
+        if (r < p_green) {
+            green++;
+        } else if (r < p_green + p_yellow) {
+            yellow++;
+        } else {
+            red++;
+        }
+    }
+
+    double sim_green = (double)green / trials;
+    double sim_yellow = (double)yellow / trials;
+    double sim_red = (double)red / trials;
+
+    double err_green = abs(p_green - sim_green) / p_green * 100;
+    double err_yellow = abs(p_yellow - sim_yellow) / p_yellow * 100;
+    double err_red = abs(p_red - sim_red) / p_red * 100;
+
+    cout << "\\nTraffic Light Simulation Results (" << trials << " trials):" << endl;
+    cout << "--------------------------------------------------------" << endl;
+    cout << setw(8) << "Color" << " | " << setw(11) << "Theoretical" << " | " 
+         << setw(8) << "Count" << " | " << setw(11) << "Simulated" << " | " 
+         << setw(8) << "Error (%)" << endl;
+    cout << "--------------------------------------------------------" << endl;
+    cout << setw(8) << "Green" << " | " << setw(11) << p_green << " | " 
+         << setw(8) << green << " | " << setw(11) << sim_green << " | " 
+         << setw(8) << fixed << setprecision(2) << err_green << "%" << endl;
+    cout << setw(8) << "Yellow" << " | " << setw(11) << p_yellow << " | " 
+         << setw(8) << yellow << " | " << setw(11) << sim_yellow << " | " 
+         << setw(8) << fixed << setprecision(2) << err_yellow << "%" << endl;
+    cout << setw(8) << "Red" << " | " << setw(11) << p_red << " | " 
+         << setw(8) << red << " | " << setw(11) << sim_red << " | " 
+         << setw(8) << fixed << setprecision(2) << err_red << "%" << endl;
+    cout << "--------------------------------------------------------" << endl;
+
+    return 0;
+}`;
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-3">
+      <h4 className="text-sm font-black text-aast-navy">Traffic Light Probability Simulation</h4>
+      <div className="grid sm:grid-cols-4 gap-4">
+        {/* Visual Light */}
+        <div className="flex flex-col items-center justify-center bg-slate-900 rounded-xl p-4 w-fit mx-auto border-4 border-slate-700 shadow-inner">
+          <div className="space-y-3">
+            <div className={`w-8 h-8 rounded-full shadow-md transition-all duration-300 ${activeLight === 'red' ? 'bg-red-500 shadow-red-500/80 ring-4 ring-red-500/25' : 'bg-red-950'}`} />
+            <div className={`w-8 h-8 rounded-full shadow-md transition-all duration-300 ${activeLight === 'yellow' ? 'bg-yellow-500 shadow-yellow-500/80 ring-4 ring-yellow-500/25' : 'bg-yellow-950'}`} />
+            <div className={`w-8 h-8 rounded-full shadow-md transition-all duration-300 ${activeLight === 'green' ? 'bg-emerald-500 shadow-emerald-500/80 ring-4 ring-emerald-500/25' : 'bg-emerald-950'}`} />
+          </div>
+          <button 
+            disabled={isSimulating}
+            onClick={triggerSimulation}
+            className="mt-4 px-3 py-1.5 bg-aast-navy text-aast-gold text-[10px] font-bold rounded-lg border border-aast-gold/30 hover:bg-slate-800 transition"
+          >
+            {isSimulating ? 'Simulating...' : 'Trigger Light'}
+          </button>
+        </div>
+
+        {/* Inputs */}
+        <div className="sm:col-span-3 space-y-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <div>
+              <label className="text-[10px] font-bold text-slate-500">P(Green)</label>
+              <input type="number" step="0.05" min="0" max="1" value={pGreen} onChange={(e) => {
+                const g = Number(e.target.value);
+                setPGreen(g);
+                setPRed(1 - g - pYellow);
+              }} className="w-full px-2 py-1 border rounded" />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-500">P(Yellow)</label>
+              <input type="number" step="0.05" min="0" max="1" value={pYellow} onChange={(e) => {
+                const y = Number(e.target.value);
+                setPYellow(y);
+                setPRed(1 - pGreen - y);
+              }} className="w-full px-2 py-1 border rounded" />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-500">P(Red)</label>
+              <input type="number" disabled value={pRed.toFixed(2)} className="w-full px-2 py-1 border rounded bg-slate-50 text-slate-500" />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-500">Trials</label>
+              <input type="number" min="10" max="50000" value={trials} onChange={(e) => setTrials(Number(e.target.value) || 10)} className="w-full px-2 py-1 border rounded" />
+            </div>
+          </div>
+
+          {/* Results Table */}
+          <div className="overflow-x-auto border rounded-xl">
+            <table className="w-full text-xs text-left">
+              <thead className="bg-slate-50 border-b">
+                <tr>
+                  <th className="p-2">Light Color</th>
+                  <th className="p-2">Theoretical P</th>
+                  <th className="p-2">Observed Count</th>
+                  <th className="p-2">Simulated P</th>
+                  <th className="p-2 text-rose-600">Error (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b">
+                  <td className="p-2 font-bold text-emerald-600">Green</td>
+                  <td className="p-2 font-mono">{(pGreen * 100).toFixed(1)}%</td>
+                  <td className="p-2">{results.green.count}</td>
+                  <td className="p-2 font-mono">{(results.green.sim * 100).toFixed(2)}%</td>
+                  <td className="p-2 text-rose-600 font-mono">{results.green.err.toFixed(2)}%</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="p-2 font-bold text-amber-500">Yellow</td>
+                  <td className="p-2 font-mono">{(pYellow * 100).toFixed(1)}%</td>
+                  <td className="p-2">{results.yellow.count}</td>
+                  <td className="p-2 font-mono">{(results.yellow.sim * 100).toFixed(2)}%</td>
+                  <td className="p-2 text-rose-600 font-mono">{results.yellow.err.toFixed(2)}%</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="p-2 font-bold text-rose-600">Red</td>
+                  <td className="p-2 font-mono">{(pRed * 100).toFixed(1)}%</td>
+                  <td className="p-2">{results.red.count}</td>
+                  <td className="p-2 font-mono">{(results.red.sim * 100).toFixed(2)}%</td>
+                  <td className="p-2 text-rose-600 font-mono">{results.red.err.toFixed(2)}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-1.5 border-t pt-3">
+        <p className="text-[10px] font-black text-slate-500 uppercase font-mono">C++ Simulation Program Code</p>
+        <pre className="text-[9px] bg-slate-900 text-slate-200 p-3 rounded-lg overflow-x-auto max-h-48 font-mono">
+          {cppCode}
+        </pre>
+      </div>
+    </div>
+  );
+};
+
+// --- EVENT-DRIVEN M/M/1 QUEUE SIMULATION ---
+export const EventDrivenQueueDemo: React.FC = () => {
+  const [arrivalRate, setArrivalRate] = useState<number>(2.0);
+  const [serviceRate, setServiceRate] = useState<number>(3.0);
+
+  const trace = useMemo(() => {
+    const traceData: {
+      step: number;
+      event: string;
+      clock: number;
+      sysState: number;
+      lq: number;
+      ls: number;
+      fel: string;
+    }[] = [];
+
+    // Simple reproducible LCG seed
+    let state = 42;
+    const get_rn = () => {
+      state = (1664525 * state + 1013904223) % 4294967296;
+      return state / 4294967296.0;
+    };
+
+    const get_exp = (rate: number) => {
+      let r = get_rn();
+      while (r >= 1.0 || r <= 0.0) {
+        r = get_rn();
+      }
+      return -Math.log(1.0 - r) / rate;
+    };
+
+    let clock = 0.0;
+    let numInSystem = 0;
+    let completions = 0;
+    
+    let nextArrival = get_exp(arrivalRate);
+    let nextDeparture = Infinity;
+    
+    // Step 0
+    traceData.push({
+      step: 0,
+      event: 'Start',
+      clock: 0.0,
+      sysState: 0,
+      lq: 0,
+      ls: 0,
+      fel: `A@${nextArrival.toFixed(4)}`
+    });
+
+    let limit = 0;
+    while (completions < 3 && limit < 15) {
+      limit++;
+      let eventName = '';
+      if (nextArrival < nextDeparture) {
+        clock = nextArrival;
+        numInSystem++;
+        const interArr = get_exp(arrivalRate);
+        nextArrival = clock + interArr;
+
+        if (numInSystem === 1) {
+          const servTime = get_exp(serviceRate);
+          nextDeparture = clock + servTime;
+        }
+        eventName = 'Arrival';
+      } else {
+        clock = nextDeparture;
+        numInSystem--;
+        completions++;
+
+        if (numInSystem > 0) {
+          const servTime = get_exp(serviceRate);
+          nextDeparture = clock + servTime;
+        } else {
+          nextDeparture = Infinity;
+        }
+        eventName = 'Departure';
+      }
+
+      const lq = Math.max(0, numInSystem - 1);
+      const ls = numInSystem > 0 ? 1 : 0;
+      
+      let felStr = '';
+      if (nextArrival !== Infinity) {
+        felStr += `A@${nextArrival.toFixed(4)}`;
+      }
+      if (nextDeparture !== Infinity) {
+        if (felStr) felStr += ', ';
+        felStr += `D@${nextDeparture.toFixed(4)}`;
+      }
+
+      traceData.push({
+        step: limit,
+        event: eventName,
+        clock,
+        sysState: numInSystem,
+        lq,
+        ls,
+        fel: felStr
+      });
+    }
+
+    return traceData;
+  }, [arrivalRate, serviceRate]);
+
+  const cppCode = `#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+unsigned long long lcg_state = 42;
+double get_rn() {
+    lcg_state = (1664525 * lcg_state + 1013904223) % 4294967296ULL;
+    return (double)lcg_state / 4294967296.0;
+}
+
+double get_exp(double rate) {
+    double r = get_rn();
+    while (r >= 1.0 || r <= 0.0) {
+        r = get_rn();
+    }
+    return -log(1.0 - r) / rate;
+}
+
+int main() {
+    double X, Y;
+    cout << "Enter arrival rate X (customers/hour): ";
+    if (!(cin >> X)) return 1;
+    cout << "Enter departure rate Y (customers/hour): ";
+    if (!(cin >> Y)) return 1;
+
+    double clock = 0.0;
+    int num_in_system = 0;
+    int completions = 0;
+
+    double next_arrival = get_exp(X);
+    double next_departure = 1e9; // infinity
+
+    cout << "\\\nEvent-Driven M/M/1 Queue Simulation Trace Table (Stop after 3 completions)" << endl;
+    cout << "--------------------------------------------------------------------------------" << endl;
+    cout << setw(5) << "Step" << " | "
+         << setw(10) << "Event" << " | "
+         << setw(10) << "Clock (h)" << " | "
+         << setw(10) << "Sys State" << " | "
+         << setw(8) << "Q (LQ)" << " | "
+         << setw(8) << "S (LS)" << " | "
+         << "Future Event List (FEL)" << endl;
+    cout << "--------------------------------------------------------------------------------" << endl;
+
+    int step = 0;
+    cout << setw(5) << step << " | " << setw(10) << "Start" << " | "
+         << setw(10) << fixed << setprecision(4) << clock << " | "
+         << setw(10) << num_in_system << " | " << setw(8) << 0 << " | " << setw(8) << 0 << " | "
+         << "A@" << next_arrival << endl;
+
+    while (completions < 3) {
+        step++;
+        string event_name;
+        if (next_arrival < next_departure) {
+            clock = next_arrival;
+            num_in_system++;
+            double inter_arr = get_exp(X);
+            next_arrival = clock + inter_arr;
+
+            if (num_in_system == 1) {
+                double serv_time = get_exp(Y);
+                next_departure = clock + serv_time;
+            }
+            event_name = "Arrival";
+        } else {
+            clock = next_departure;
+            num_in_system--;
+            completions++;
+
+            if (num_in_system > 0) {
+                double serv_time = get_exp(Y);
+                next_departure = clock + serv_time;
+            } else {
+                next_departure = 1e9;
+            }
+            event_name = "Departure";
+        }
+
+        int lq = max(0, num_in_system - 1);
+        int ls = num_in_system > 0 ? 1 : 0;
+
+        cout << setw(5) << step << " | " << setw(10) << event_name << " | "
+             << setw(10) << fixed << setprecision(4) << clock << " | "
+             << setw(10) << num_in_system << " | " << setw(8) << lq << " | " << setw(8) << ls << " | ";
+
+        if (next_arrival < 1e8) cout << "A@" << next_arrival;
+        if (next_departure < 1e8) {
+            if (next_arrival < 1e8) cout << ", ";
+            cout << "D@" << next_departure;
+        }
+        cout << endl;
+    }
+    cout << "--------------------------------------------------------------------------------" << endl;
+    return 0;
+}`;
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-3">
+      <div className="flex justify-between items-center border-b pb-2">
+        <h4 className="text-sm font-black text-aast-navy">Event-Driven M/M/1 Queue Simulator</h4>
+        <span className="text-[10px] px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">
+          Section C++ Replicator
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div>
+          <label className="text-[10px] font-bold text-slate-500">Arrival Rate X (per hour)</label>
+          <input type="number" value={arrivalRate} onChange={(e) => setArrivalRate(Number(e.target.value) || 1)} className="w-full px-2 py-1 border rounded" />
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-slate-500">Departure Rate Y (per hour)</label>
+          <input type="number" value={serviceRate} onChange={(e) => setServiceRate(Number(e.target.value) || 1)} className="w-full px-2 py-1 border rounded" />
+        </div>
+      </div>
+
+      <div className="overflow-x-auto border rounded-xl">
+        <table className="w-full text-xs text-left">
+          <thead className="bg-slate-50 border-b">
+            <tr>
+              <th className="p-2">Step</th>
+              <th className="p-2">Event</th>
+              <th className="p-2">Clock (h)</th>
+              <th className="p-2">Sys State</th>
+              <th className="p-2">Queue (LQ)</th>
+              <th className="p-2">Server (LS)</th>
+              <th className="p-2">FEL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {trace.map((r) => (
+              <tr key={r.step} className="border-b font-mono">
+                <td className="p-2 font-bold text-slate-400">{r.step}</td>
+                <td className="p-2 font-bold text-aast-navy">{r.event}</td>
+                <td className="p-2">{r.clock.toFixed(4)}</td>
+                <td className="p-2">{r.sysState}</td>
+                <td className="p-2">{r.lq}</td>
+                <td className="p-2">{r.ls}</td>
+                <td className="p-2 text-slate-600">{r.fel}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="space-y-1.5 border-t pt-3">
+        <p className="text-[10px] font-black text-slate-500 uppercase font-mono">C++ Simulation Program Code</p>
+        <pre className="text-[9px] bg-slate-900 text-slate-200 p-3 rounded-lg overflow-x-auto max-h-48 font-mono">
+          {cppCode}
+        </pre>
       </div>
     </div>
   );
