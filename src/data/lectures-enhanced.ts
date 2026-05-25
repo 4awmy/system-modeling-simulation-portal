@@ -33,18 +33,18 @@ export interface EnhancedLectureData {
 
 const conceptsByWeek: Record<string, string[]> = {
   w1: ["System definition", "State variables", "Entity-Activity-Event", "Deterministic vs stochastic", "Planning-Modeling-Validation-Application"],
-  w2: ["Cumulative probability", "RN interval mapping", "Discrete demand simulation", "Trace-table setup"],
-  w3: ["Monte Carlo trials", "Empirical probability", "Large-sample stabilization", "Demand simulation"],
-  w4: ["Case-based simulation", "Outcome probability tables", "Risk/cost estimation", "Scenario interpretation"],
-  w5: ["Discrete vs continuous distributions", "Expected value and variance", "Conditional branching", "Two-stage RN streams"],
-  w6: ["Clock advance", "Future Event List (FEL)", "Periodic scan", "Next-event simulation"],
-  w7: ["CDF derivation", "Inverse transform method", "Uniform distribution", "Exponential distribution", "Queue model inputs"],
-  w8: ["Revision drills", "Goodness-of-fit support", "Z-table usage", "Validation readiness"],
-  w9: ["Midterm solution analysis", "Trace correction", "Interpretation quality", "Coverage integration"],
-  w10: ["Reliability simulation", "Time-to-failure mapping", "Replacement policy", "Downtime/cost metrics"],
-  w11: ["Serial service stations", "Blocking and waiting", "Throughput limits", "Bottleneck identification"],
-  w12: ["Finite-source repair model", "Service capacity effect", "Machine downtime", "Cost comparison"],
-  w13: ["M/M/1 metrics (P0, L, Lq, W, Wq)", "Event-driven execution", "Time-driven execution", "Method comparison"]
+  w2: ["Congruential method (LCG)", "Pseudo-random number generation", "Seed and period", "C++ coin tossing code"],
+  w3: ["Monte Carlo trials", "Empirical probability convergence", "Bowl mapping", "Expected daily demand"],
+  w4: ["Discrete observation mapping", "Single-digit RN mapping", "Rejection logic for die", "Traffic light probability intervals"],
+  w5: ["Discrete and continuous distributions", "Expected value and variance", "Multi-stage conditional branching", "Insurance problem simulation"],
+  w6: ["Variance reduction techniques", "Antithetic variates", "Complement random numbers", "Estimation error comparison"],
+  w7: ["Queueing system notation A/B/C/D/E", "Little's formula", "Stochastic balance equations", "M/M/1 state probabilities"],
+  w8: ["Inverse transform method", "Uniform distribution inversion", "Exponential distribution inversion", "Allocation vs inverse method"],
+  w9: ["Exam debrief and corrections", "Inventory reorder point", "Stockout and carrying cost", "Lead time trace"],
+  w10: ["Time-to-failure (TTF) simulation", "Preventive vs breakdown maintenance", "Machine availability", "Tube replacement cost analysis"],
+  w11: ["Serial assembly line (Bob & Ray)", "Bottleneck identification", "Blocking and starvation", "Throughput bound"],
+  w12: ["Simulation clock types", "Periodic scan technique", "Event scan / FEL technique", "10-minute station trace"],
+  w13: ["M/M/1 time scan vs event scan", "Transition probability in dt", "Finite-source repairman model", "Machine downtime calculation"]
 };
 
 const allWeeks = {

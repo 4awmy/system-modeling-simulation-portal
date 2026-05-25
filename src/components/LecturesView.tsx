@@ -12,6 +12,9 @@ import {
   ValidationDemo,
   RNGPlayground,
   AccidentFootballPlayground,
+  RandomMappingDemo,
+  EventDrivenQueueDemo,
+  TrafficLightDemo,
 } from './Demos';
 
 interface LecturesViewProps {
@@ -21,16 +24,37 @@ interface LecturesViewProps {
 }
 
 const demoByWeek = (id: string) => {
-  if (id === 'w1' || id === 'w2') return <RNGPlayground />;
+  // W1: System Foundations — RNG intro
+  if (id === 'w1') return <RNGPlayground />;
+  // W2: LCG + Mid-Square PRNG
+  if (id === 'w2') return <RNGPlayground />;
+  // W3: Monte Carlo / Demand simulation
   if (id === 'w3') return <MonteCarloCoinDemandDemo />;
-  if (id === 'w4') return <AccidentFootballPlayground />;
+  // W4: Discrete Observation Mapping — Coin, Die, Traffic Light
+  if (id === 'w4') return (
+    <div className="space-y-4">
+      <RandomMappingDemo />
+      <TrafficLightDemo />
+    </div>
+  );
+  // W5: Multi-Stage Decision (Insurance Problem)
   if (id === 'w5') return <MultiStageDecisionDemo />;
-  if (id === 'w6' || id === 'w13') return <TimeEventScanDemo />;
-  if (id === 'w7' || id === 'w10') return <QueueSimulatorDemo />;
+  // W6: Variance Reduction / Antithetic Variates — Accident/Football multi-stage models
+  if (id === 'w6') return <AccidentFootballPlayground />;
+  // W7: Queueing Theory (M/M/1, Little's Law, balance equations)
+  if (id === 'w7') return <QueueSimulatorDemo />;
+  // W8: Inverse Transform + Revision (Chi-Square goodness-of-fit)
   if (id === 'w8') return <ValidationDemo />;
+  // W9: Exam Debrief + Inventory Reorder Policy simulation
   if (id === 'w9') return <InventoryLeadTimeDemo />;
+  // W10: Machine Maintenance — TTF/TTR, Repairman system
+  if (id === 'w10') return <RepairmanDemo />;
+  // W11: Two-Stage Assembly Line (Bob & Ray bottleneck)
   if (id === 'w11') return <AssemblyLineDemo />;
-  if (id === 'w12') return <RepairmanDemo />;
+  // W12: Time-Advance Clock Mechanics (Periodic vs Event Scan, FEL)
+  if (id === 'w12') return <TimeEventScanDemo />;
+  // W13: M/M/1 Event-Driven Simulation + Finite-Source Repairman
+  if (id === 'w13') return <EventDrivenQueueDemo />;
   return null;
 };
 

@@ -12,6 +12,9 @@ import {
   ValidationDemo,
   RNGPlayground,
   AccidentFootballPlayground,
+  RandomMappingDemo,
+  EventDrivenQueueDemo,
+  TrafficLightDemo,
 } from './Demos';
 import { Sparkles, BarChart2, Cpu } from 'lucide-react';
 
@@ -30,28 +33,50 @@ export const CurriculumDemoWrapper: React.FC<CurriculumDemoWrapperProps> = ({
   // Determine if a playground component is available for this week
   const getPlaygroundComponent = (id: string) => {
     switch (id) {
+      // W1: Foundations — RNG as warm-up intro
+      case 'w1':
+        return <RNGPlayground />;
+      // W2: LCG + Mid-Square PRNG
       case 'w2':
         return <RNGPlayground />;
+      // W3: Monte Carlo / Demand simulation
       case 'w3':
         return <MonteCarloCoinDemandDemo />;
+      // W4: Discrete Observation Mapping (Coin, Die, Traffic Light)
       case 'w4':
-        return <AccidentFootballPlayground />;
+        return (
+          <div className="space-y-4">
+            <RandomMappingDemo />
+            <TrafficLightDemo />
+          </div>
+        );
+      // W5: Multi-Stage Decision (Insurance Problem)
       case 'w5':
         return <MultiStageDecisionDemo />;
+      // W6: Variance Reduction — uses RNG playground (complement / antithetic tab)
       case 'w6':
-      case 'w12':
-        return <TimeEventScanDemo />;
+        return <AccidentFootballPlayground />;
+      // W7: Queueing Theory (M/M/1, Little's Law)
       case 'w7':
-      case 'w10':
         return <QueueSimulatorDemo />;
+      // W8: Inverse Transform + Revision (Chi-Square / KS test)
       case 'w8':
         return <ValidationDemo />;
+      // W9: Exam Debrief / Inventory Reorder Policy
       case 'w9':
         return <InventoryLeadTimeDemo />;
+      // W10: Machine Maintenance — Repairman system
+      case 'w10':
+        return <RepairmanDemo />;
+      // W11: Two-Stage Assembly Line (Bob & Ray)
       case 'w11':
         return <AssemblyLineDemo />;
+      // W12: Time-Advance Clock Mechanics (Periodic vs Event Scan)
+      case 'w12':
+        return <TimeEventScanDemo />;
+      // W13: M/M/1 Event-Driven Simulation + Finite-Source Repairman
       case 'w13':
-        return <RepairmanDemo />;
+        return <EventDrivenQueueDemo />;
       default:
         return null;
     }
