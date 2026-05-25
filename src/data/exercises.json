@@ -2,9 +2,9 @@
   {
     "id": "w2",
     "type": "lcg_congruential",
-    "title": "LCG Random Generator Trace",
+    "title": "Congruential Random Generator Trace (Section Problem)",
     "description": "Calculate states for congruential generator R_{i+1} = (a * R_i + c) mod T. Parameters: a=1, c=4, T=5, seed R_0=2. Normalized output U_i = R_i / T.",
-    "hint": "LCG recurrence calculates remainder of division by T. Target: a=1, c=4, T=5.",
+    "hint": "LCG recurrence calculates remainder of division by T. R_0=2, R_1=(1*2+4) mod 5 = 1, U_1=1/5=0.2.",
     "columns": [
       { "key": "x_i", "label": "State R_i" },
       { "key": "term", "label": "(a*R_i + c)" },
@@ -14,15 +14,22 @@
     "rows": [
       { "step": 1, "values": { "x_i": 2, "term": 6, "x_next": 1, "u_next": 0.2 } },
       { "step": 2, "values": { "x_i": 1, "term": 5, "x_next": 0, "u_next": 0.0 } },
-      { "step": 3, "values": { "x_i": 0, "term": 4, "x_next": 4, "u_next": 0.8 } }
+      { "step": 3, "values": { "x_i": 0, "term": 4, "x_next": 4, "u_next": 0.8 } },
+      { "step": 4, "values": { "x_i": 4, "term": 8, "x_next": 3, "u_next": 0.6 } },
+      { "step": 5, "values": { "x_i": 3, "term": 7, "x_next": 2, "u_next": 0.4 } },
+      { "step": 6, "values": { "x_i": 2, "term": 6, "x_next": 1, "u_next": 0.2 } },
+      { "step": 7, "values": { "x_i": 1, "term": 5, "x_next": 0, "u_next": 0.0 } },
+      { "step": 8, "values": { "x_i": 0, "term": 4, "x_next": 4, "u_next": 0.8 } },
+      { "step": 9, "values": { "x_i": 4, "term": 8, "x_next": 3, "u_next": 0.6 } },
+      { "step": 10, "values": { "x_i": 3, "term": 7, "x_next": 2, "u_next": 0.4 } }
     ]
   },
   {
     "id": "w3",
     "type": "monte_carlo",
-    "title": "Monte Carlo Coin Flips",
-    "description": "Simulate fair coin trials. Random numbers: RN < 0.5 is Head, otherwise Tail.",
-    "hint": "Check bounds: 0.0 <= RN < 0.5 is Head; 0.5 <= RN < 1.0 is Tail.",
+    "title": "Monte Carlo Trial: Fair Coin Tossing Simulation",
+    "description": "Simulate fair coin trials. Check bounds: 0.0 <= RN < 0.5 is Head; 0.5 <= RN < 1.0 is Tail.",
+    "hint": "Match each random number: <0.5 is Head, >=0.5 is Tail.",
     "columns": [
       { "key": "rn", "label": "RN" },
       { "key": "result", "label": "Outcome" }
@@ -30,15 +37,17 @@
     "rows": [
       { "step": 1, "values": { "rn": 0.24, "result": "Head" } },
       { "step": 2, "values": { "rn": 0.67, "result": "Tail" } },
-      { "step": 3, "values": { "rn": 0.49, "result": "Head" } }
+      { "step": 3, "values": { "rn": 0.49, "result": "Head" } },
+      { "step": 4, "values": { "rn": 0.88, "result": "Tail" } },
+      { "step": 5, "values": { "rn": 0.12, "result": "Head" } }
     ]
   },
   {
     "id": "w4",
     "type": "discrete_mapping",
-    "title": "Traffic Light Observations Mapping",
-    "description": "Map single-digit random numbers (0-9) to traffic colors. Distribution: Green 40% (digits 0-3), Yellow 10% (digit 4), Red 50% (digits 5-9).",
-    "hint": "Check which digit subrange the random number falls into: 0-3 Green, 4 Yellow, 5-9 Red.",
+    "title": "Traffic Light Observations Mapping (Example 3)",
+    "description": "Map single-digit random numbers (0-9) to traffic light colors. Distribution: Green 40% (digits 0-3), Yellow 10% (digit 4), Red 50% (digits 5-9) for random sequence (6, 3, 5, 0, 8).",
+    "hint": "Check digit subrange: 0-3 is Green, 4 is Yellow, 5-9 is Red. Sequence is: 6, 3, 5, 0, 8.",
     "columns": [
       { "key": "rn", "label": "RN Digit" },
       { "key": "class", "label": "Digit Interval" },
@@ -47,14 +56,16 @@
     "rows": [
       { "step": 1, "values": { "rn": 6, "class": "5-9", "color": "Red" } },
       { "step": 2, "values": { "rn": 3, "class": "0-3", "color": "Green" } },
-      { "step": 3, "values": { "rn": 5, "class": "5-9", "color": "Red" } }
+      { "step": 3, "values": { "rn": 5, "class": "5-9", "color": "Red" } },
+      { "step": 4, "values": { "rn": 0, "class": "0-3", "color": "Green" } },
+      { "step": 5, "values": { "rn": 8, "class": "5-9", "color": "Red" } }
     ]
   },
   {
     "id": "w5",
     "type": "multi_stage",
-    "title": "Life Insurance Sales Multi-Stage Decision",
-    "description": "Trace customer decision trees. Stage 1: RN1 <= 49 -> Interested (50%). Stage 2 (if interested): RN2 <= 59 -> No Sale (60%); 60-79 -> Small Policy (20%); 80-99 -> Large Policy (20%).",
+    "title": "Sales of Life Insurance Multi-Stage Decision",
+    "description": "Trace customer decision trees. Stage 1: RN1 <= 49 -> Interested (50%). Stage 2 (if interested): RN2 <= 49 -> No Sale (50%); 50-82 -> 10,000 L.E. Policy (33.3%); 83-99 -> 20,000 L.E. Policy (16.7%).",
     "hint": "If RN1 >= 50, client is Not Interested, and Stage 2 is skipped (fill '-' and 'No Interest').",
     "columns": [
       { "key": "rn1", "label": "RN1 Interest" },
@@ -63,7 +74,7 @@
       { "key": "final", "label": "Final Outcome" }
     ],
     "rows": [
-      { "step": 1, "values": { "rn1": 30, "stage1": "Interested", "rn2": 85, "final": "Large Policy" } },
+      { "step": 1, "values": { "rn1": 30, "stage1": "Interested", "rn2": 85, "final": "20,000 L.E. Policy" } },
       { "step": 2, "values": { "rn1": 70, "stage1": "Not Interested", "rn2": "-", "final": "No Interest" } }
     ]
   },
@@ -121,43 +132,9 @@
     ]
   },
   {
-    "id": "w9",
-    "type": "inventory_trace",
-    "title": "Inventory Reorder Point (RP, Q) Trace",
-    "description": "Trace stock updates under RP=5, order quantity Q=10 policy. Order placed when Ending Stock <= RP.",
-    "hint": "Trigger order if Ending Stock <= 5. Outstanding replenishment arrives after lead time delay.",
-    "columns": [
-      { "key": "demand", "label": "Demand" },
-      { "key": "stock_after", "label": "Ending Stock" },
-      { "key": "order", "label": "Replenish Action" }
-    ],
-    "rows": [
-      { "step": 1, "values": { "demand": 2, "stock_after": 10, "order": "None" } },
-      { "step": 2, "values": { "demand": 3, "stock_after": 7, "order": "None" } },
-      { "step": 3, "values": { "demand": 4, "stock_after": 3, "order": "Place Order" } }
-    ]
-  },
-  {
-    "id": "w10",
-    "type": "reliability_queue",
-    "title": "Machine Breakdown & Repair Shop Trace",
-    "description": "Trace failure repairs under 1 repairman. Repair time is 2 hours. Compute when repair starts, ends, and machine downtime. Repair Start_i = max(FailTime_i, RepairEnd_{i-1}).",
-    "hint": "Repair shop operates as a FIFO queue. Downtime = Waiting in queue + TTR.",
-    "columns": [
-      { "key": "fail_time", "label": "Breakdown Clock" },
-      { "key": "repair_start", "label": "Repair Start" },
-      { "key": "repair_end", "label": "Repair End" },
-      { "key": "wait_time", "label": "Downtime (h)" }
-    ],
-    "rows": [
-      { "step": 1, "values": { "fail_time": 10, "repair_start": 10, "repair_end": 12, "wait_time": 2 } },
-      { "step": 2, "values": { "fail_time": 11, "repair_start": 12, "repair_end": 14, "wait_time": 3 } }
-    ]
-  },
-  {
     "id": "w11",
     "type": "assembly_blocking",
-    "title": "Tandem Assembly Line Blocking Trace",
+    "title": "Tandem Assembly Line Blocking Trace (Bob & Ray)",
     "description": "Trace Bob (Stage 1, takes 3 min/item) and Ray (Stage 2, takes 5 min/item). Buffer capacity is 0. If Bob finishes item i+1 before Ray completes item i, Bob is blocked.",
     "hint": "Ray starts item i only when Bob finishes it and Ray is free. Bob finishes item i+1 but is blocked until Ray finishes item i.",
     "columns": [
@@ -175,8 +152,8 @@
   {
     "id": "w12",
     "type": "clock_scan_comparison",
-    "title": "Clock Scan Event Processing Timeline",
-    "description": "Trace when arrival/departure events are processed under Periodic Scan (dt = 1.0 min) vs Event Scan clock. Compare event times 1.8 and 3.2.",
+    "title": "10-Minute Station Clock Scan Trace",
+    "description": "Trace when arrival/departure events are processed under Periodic Scan (dt = 1.0 min) vs Event Scan clock. Event times: arrivals 1.8, 3.2, 6.1, 7.4; departures 2.6, 4.8, 7.3, 8.1.",
     "hint": "Periodic scan advances clock by 1.0; events occurring in interval (k-1, k] are processed at end-time k. Event scan processes them immediately.",
     "columns": [
       { "key": "time", "label": "Actual Event Time" },
@@ -193,18 +170,27 @@
   {
     "id": "w13",
     "type": "continuous_mm1",
-    "title": "M/M/1 Time Scan Transition Probability",
-    "description": "Calculate continuous scan transition probability for arrival rate lambda = 20/h and service rate mu = 25/h. P(Arrival in dt) = 1 - e^(-lambda * dt). Find probabilities for dt=1 min and dt=2 min (use four decimals).",
-    "hint": "dt in hours is minutes / 60. Exponent is lambda * dt. Probability is 1 - exp(-exponent).",
+    "title": "Event-Driven M/M/1 Queue Simulation Trace",
+    "description": "Trace arrival/departure events under Event-driven simulation. Rates: X=2, Y=3. Empty at start. Stop after 3 completions. Trace is generated using seed 42 LCG.",
+    "hint": "Next event is min(Arrival, Departure). Clock jumps to event time. Server status LS is 1 if busy, 0 if idle.",
     "columns": [
-      { "key": "lambda_per_hr", "label": "Arrival Rate (h)" },
-      { "key": "dt_mins", "label": "Interval dt (m)" },
-      { "key": "lambda_dt", "label": "Exponent" },
-      { "key": "prob_arrival", "label": "P(Arrival)" }
+      { "key": "event", "label": "Event Type" },
+      { "key": "clock", "label": "Clock Time" },
+      { "key": "sys_state", "label": "System State" },
+      { "key": "lq", "label": "Queue (LQ)" },
+      { "key": "ls", "label": "Server (LS)" },
+      { "key": "fel", "label": "Future Events List (FEL)" }
     ],
     "rows": [
-      { "step": 1, "values": { "lambda_per_hr": 20, "dt_mins": 1, "lambda_dt": 0.3333, "prob_arrival": 0.2835 } },
-      { "step": 2, "values": { "lambda_per_hr": 30, "dt_mins": 2, "lambda_dt": 1.0000, "prob_arrival": 0.6321 } }
+      { "step": 0, "values": { "event": "Start", "clock": 0.0000, "sys_state": 0, "lq": 0, "ls": 0, "fel": "A@0.1454" } },
+      { "step": 1, "values": { "event": "Arrival", "clock": 0.1454, "sys_state": 1, "lq": 0, "ls": 1, "fel": "A@0.1915, D@0.4324" } },
+      { "step": 2, "values": { "event": "Arrival", "clock": 0.1915, "sys_state": 2, "lq": 1, "ls": 1, "fel": "A@0.3174, D@0.4324" } },
+      { "step": 3, "values": { "event": "Arrival", "clock": 0.3174, "sys_state": 3, "lq": 2, "ls": 1, "fel": "A@0.5529, D@0.4324" } },
+      { "step": 4, "values": { "event": "Departure", "clock": 0.4324, "sys_state": 2, "lq": 1, "ls": 1, "fel": "A@0.5529, D@0.4411" } },
+      { "step": 5, "values": { "event": "Departure", "clock": 0.4411, "sys_state": 1, "lq": 0, "ls": 1, "fel": "A@0.5529, D@0.6387" } },
+      { "step": 6, "values": { "event": "Arrival", "clock": 0.5529, "sys_state": 2, "lq": 1, "ls": 1, "fel": "A@0.6160, D@0.6387" } },
+      { "step": 7, "values": { "event": "Arrival", "clock": 0.6160, "sys_state": 3, "lq": 2, "ls": 1, "fel": "A@1.6510, D@0.6387" } },
+      { "step": 8, "values": { "event": "Departure", "clock": 0.6387, "sys_state": 2, "lq": 1, "ls": 1, "fel": "A@1.6510, D@2.3813" } }
     ]
   }
 ]

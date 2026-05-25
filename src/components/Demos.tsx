@@ -135,33 +135,88 @@ export const MultiStageDecisionDemo: React.FC = () => {
 export const TimeEventScanDemo: React.FC = () => {
   const [arrival, setArrival] = useState<number>(3);
   const [service, setService] = useState<number>(5);
-  const periodicTicks = Array.from({ length: 12 }, (_, i) => i);
-  const events = [
-    { t: arrival, e: 'Arrival' },
-    { t: arrival + service, e: 'Departure' },
-  ];
+  const [dt, setDt] = useState<number>(1);
+  const departure = arrival + service;
+  const totalTime = Math.max(departure + 2, 14);
+
+  // Periodic scan: which ticks fire
+  const periodicTicks: number[] = [];
+  for (let t = dt; t <= totalTime; t += dt) periodicTicks.push(parseFloat(t.toFixed(2)));
+
+  // How many periodic ticks pass before each event?
+  const arrivalScan = periodicTicks.find((t) => t >= arrival) ?? arrival;
+  const departureScan = periodicTicks.find((t) => t >= departure) ?? departure;
+  const scanDelay = parseFloat(((arrivalScan - arrival) + (departureScan - departure)).toFixed(3));
 
   return (
-    <div className={cardClass}>
-      <h4 className="text-sm font-black text-aast-navy">Time-Driven vs Event-Driven</h4>
-      <div className="grid sm:grid-cols-2 gap-3">
+    <div className={`${cardClass} space-y-4`}>
+      <div className="flex justify-between items-center">
+        <h4 className="text-sm font-black text-aast-navy">⏱ Time-Driven vs Event-Driven Clock</h4>
+        <span className="text-[10px] px-2 py-0.5 rounded-full bg-aast-navy text-aast-gold font-bold">Interactive Timeline</span>
+      </div>
+
+      {/* Controls */}
+      <div className="grid grid-cols-3 gap-2">
+        {[{label:'Arrival Time',val:arrival,set:setArrival,min:0},{label:'Service Time',val:service,set:setService,min:1},{label:'Scan Period Δt',val:dt,set:setDt,min:0.5}].map((f) => (
+          <div key={f.label}>
+            <label className="text-[10px] font-bold text-slate-500">{f.label}</label>
+            <input type="number" step={f.label.includes('Δt') ? 0.5 : 1} min={f.min} value={f.val}
+              onChange={(e) => f.set(Math.max(f.min, Number(e.target.value) || f.min))}
+              className="w-full mt-0.5 px-2 py-1 text-xs border border-slate-200 rounded focus:border-aast-gold outline-none" />
+          </div>
+        ))}
+      </div>
+
+      {/* Visual timeline */}
+      <div className="space-y-3 bg-slate-50 rounded-xl p-3 border border-slate-200">
+        {/* Event-Driven row */}
         <div>
-          <label className="text-[11px] font-semibold text-slate-600">Arrival Time</label>
-          <input type="number" min={0} value={arrival} onChange={(e) => setArrival(Math.max(0, Number(e.target.value) || 0))} className="mt-1 w-full px-2 py-1 text-xs border border-slate-200 rounded" />
+          <p className="text-[10px] font-black uppercase text-sky-700 mb-1">Event-Driven Clock (jumps exactly to event)</p>
+          <div className="relative h-8 bg-sky-50 border border-sky-200 rounded-lg overflow-hidden">
+            <div className="absolute inset-y-0 left-0" style={{width: `${(arrival/totalTime)*100}%`, background:'linear-gradient(90deg,#bfdbfe,#93c5fd)'}} />
+            {/* Arrival marker */}
+            <div className="absolute top-0 bottom-0 w-0.5 bg-sky-600" style={{left:`${(arrival/totalTime)*100}%`}}>
+              <span className="absolute -top-0.5 left-1 text-[8px] font-bold text-sky-700 whitespace-nowrap">A@{arrival}</span>
+            </div>
+            {/* Departure marker */}
+            <div className="absolute top-0 bottom-0 w-0.5 bg-red-500" style={{left:`${(departure/totalTime)*100}%`}}>
+              <span className="absolute top-2 left-1 text-[8px] font-bold text-red-600 whitespace-nowrap">D@{departure}</span>
+            </div>
+            {/* Service bar */}
+            <div className="absolute top-1.5 bottom-1.5 rounded bg-sky-400 opacity-60"
+              style={{left:`${(arrival/totalTime)*100}%`, width:`${(service/totalTime)*100}%`}} />
+          </div>
+          <p className="text-[10px] text-sky-600 mt-1 font-semibold">✓ Clock jumps: 0 → {arrival} → {departure}. Zero wasted computation.</p>
         </div>
+
+        {/* Periodic scan row */}
         <div>
-          <label className="text-[11px] font-semibold text-slate-600">Service Time</label>
-          <input type="number" min={1} value={service} onChange={(e) => setService(Math.max(1, Number(e.target.value) || 1))} className="mt-1 w-full px-2 py-1 text-xs border border-slate-200 rounded" />
+          <p className="text-[10px] font-black uppercase text-orange-700 mb-1">Periodic Scan (checks every Δt = {dt})</p>
+          <div className="relative h-8 bg-orange-50 border border-orange-200 rounded-lg overflow-hidden">
+            {periodicTicks.map((t) => (
+              <div key={t} className="absolute top-0 bottom-0 w-px bg-orange-300" style={{left:`${(t/totalTime)*100}%`}} />
+            ))}
+            <div className="absolute top-0 bottom-0 w-0.5 bg-sky-600" style={{left:`${(arrival/totalTime)*100}%`}} />
+            <div className="absolute top-0 bottom-0 w-0.5 bg-red-500" style={{left:`${(departure/totalTime)*100}%`}} />
+            {/* Scan detection markers */}
+            <div className="absolute top-1 bottom-1 w-2 h-2 rounded-full bg-orange-500" style={{left:`${(arrivalScan/totalTime)*100}%`}} />
+            <div className="absolute top-1 bottom-1 w-2 h-2 rounded-full bg-red-500" style={{left:`${(departureScan/totalTime)*100}%`}} />
+          </div>
+          <p className="text-[10px] text-orange-600 mt-1 font-semibold">⚠ Arrival detected at scan t={arrivalScan} (delay: {(arrivalScan-arrival).toFixed(2)}), Depart detected at t={departureScan} (delay: {(departureScan-departure).toFixed(2)}). Total error: {scanDelay}.</p>
         </div>
       </div>
-      <div className="grid sm:grid-cols-2 gap-3 text-xs">
-        <div className="p-2 border rounded bg-slate-50">
-          <p className="font-bold mb-1">Periodic Scan</p>
-          <p>Clock checks at ticks: {periodicTicks.join(', ')}</p>
+
+      {/* Summary table */}
+      <div className="grid grid-cols-2 gap-2 text-xs">
+        <div className="p-2.5 rounded-lg bg-sky-50 border border-sky-200">
+          <p className="font-black text-sky-700">Event-Driven</p>
+          <p className="text-sky-600 text-[10px] mt-0.5">FEL = &#123;A@{arrival}, D@{departure}&#125;</p>
+          <p className="text-sky-600 text-[10px]">Exact timing. No overhead per tick.</p>
         </div>
-        <div className="p-2 border rounded bg-slate-50">
-          <p className="font-bold mb-1">Event Scan</p>
-          <p>{events.map((x) => `${x.e}@t=${x.t}`).join(', ')}</p>
+        <div className="p-2.5 rounded-lg bg-orange-50 border border-orange-200">
+          <p className="font-black text-orange-700">Periodic Scan</p>
+          <p className="text-orange-600 text-[10px] mt-0.5">{periodicTicks.length} ticks to scan for {2} events</p>
+          <p className="text-orange-600 text-[10px]">Accumulated timing error: {scanDelay}</p>
         </div>
       </div>
     </div>
@@ -169,7 +224,7 @@ export const TimeEventScanDemo: React.FC = () => {
 };
 
 const QueueSimulatorTrace: React.FC = () => {
-  const [customers, setCustomers] = useState<number>(10);
+  const [customers, setCustomers] = useState<number>(8);
   const rows = useMemo(() => {
     let clock = 0;
     let serverFreeAt = 0;
@@ -193,40 +248,95 @@ const QueueSimulatorTrace: React.FC = () => {
     return { avgWait: totalWait / rows.length, util: busy / simEnd };
   }, [rows]);
 
+  const maxTime = rows.at(-1)?.depart ?? 1;
+
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-black text-aast-navy">Single-Server Queue (FIFO Trace)</h4>
-      <div>
-        <label className="text-[11px] font-semibold text-slate-600">Customers</label>
-        <input type="number" min={1} max={100} value={customers} onChange={(e) => setCustomers(Math.max(1, Number(e.target.value) || 1))} className="mt-1 w-28 px-2 py-1 text-xs border border-slate-200 rounded" />
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h4 className="text-sm font-black text-aast-navy">🏪 Single-Server Queue (FIFO)</h4>
+        <div className="flex items-center gap-2">
+          <label className="text-[10px] font-bold text-slate-500">Customers:</label>
+          <input type="number" min={2} max={15} value={customers}
+            onChange={(e) => setCustomers(Math.min(15, Math.max(2, Number(e.target.value) || 2)))}
+            className="w-14 px-2 py-1 text-xs border border-slate-200 rounded focus:border-aast-gold outline-none" />
+        </div>
       </div>
-      <div className="overflow-x-auto border rounded">
+
+      {/* Gantt chart */}
+      <div className="bg-slate-900 rounded-xl p-3 space-y-1.5 overflow-x-auto">
+        <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 mb-2">Gantt Timeline (time →)</p>
+        {rows.map((r) => {
+          const waitPct = (r.wait / maxTime) * 100;
+          const servPct = ((r.depart - r.start) / maxTime) * 100;
+          const arrPct = (r.arrival / maxTime) * 100;
+          const hasWait = r.wait > 0;
+          return (
+            <div key={r.id} className="flex items-center gap-2">
+              <span className="text-[9px] text-slate-400 font-mono w-4 shrink-0">C{r.id}</span>
+              <div className="relative flex-1 h-4 bg-slate-800 rounded">
+                {/* Wait bar */}
+                {hasWait && (
+                  <div className="absolute top-0 bottom-0 rounded-l bg-rose-500/70"
+                    style={{left:`${arrPct}%`, width:`${waitPct}%`}} />
+                )}
+                {/* Service bar */}
+                <div className="absolute top-0 bottom-0 rounded bg-sky-500"
+                  style={{left:`${(r.start/maxTime)*100}%`, width:`${servPct}%`}} />
+              </div>
+              <span className="text-[9px] text-slate-400 font-mono w-6 text-right shrink-0">{r.depart}</span>
+            </div>
+          );
+        })}
+        <div className="flex gap-3 mt-2">
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded bg-sky-500" /><span className="text-[9px] text-slate-400">Service</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded bg-rose-500/70" /><span className="text-[9px] text-slate-400">Waiting</span></div>
+        </div>
+      </div>
+
+      {/* Metrics */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="p-3 rounded-xl bg-sky-50 border border-sky-200 text-center">
+          <p className="text-xs text-sky-600 font-semibold">Avg Waiting Time</p>
+          <p className="text-xl font-black text-sky-800">{metrics.avgWait.toFixed(2)}</p>
+          <p className="text-[10px] text-sky-500">time units</p>
+        </div>
+        <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
+          <p className="text-xs text-emerald-600 font-semibold">Server Utilization</p>
+          <p className="text-xl font-black text-emerald-800">{(metrics.util * 100).toFixed(1)}%</p>
+          <div className="mt-1 h-1.5 bg-emerald-200 rounded-full overflow-hidden">
+            <div className="h-full bg-emerald-500 rounded-full transition-all" style={{width:`${(metrics.util*100).toFixed(1)}%`}} />
+          </div>
+        </div>
+      </div>
+
+      {/* Trace table */}
+      <div className="overflow-x-auto border border-slate-200 rounded-xl">
         <table className="w-full text-xs">
-          <thead className="bg-slate-50">
+          <thead className="bg-slate-50 border-b">
             <tr>
-              <th className="p-2 text-left">C</th>
-              <th className="p-2 text-left">Arrival</th>
-              <th className="p-2 text-left">Start</th>
-              <th className="p-2 text-left">Depart</th>
-              <th className="p-2 text-left">Wait</th>
+              {['C#','Arrival','Start','Depart','Wait','Status'].map(h => (
+                <th key={h} className="p-2 text-left font-bold text-slate-600">{h}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {rows.slice(0, 8).map((r) => (
-              <tr key={r.id} className="border-t">
-                <td className="p-2">{r.id}</td>
-                <td className="p-2">{r.arrival}</td>
-                <td className="p-2">{r.start}</td>
-                <td className="p-2">{r.depart}</td>
-                <td className="p-2">{r.wait}</td>
+            {rows.map((r) => (
+              <tr key={r.id} className={`border-t transition-colors ${r.wait > 0 ? 'bg-rose-50/40' : 'hover:bg-slate-50'}`}>
+                <td className="p-2 font-bold text-slate-400 font-mono">{r.id}</td>
+                <td className="p-2 font-mono">{r.arrival}</td>
+                <td className="p-2 font-mono">{r.start}</td>
+                <td className="p-2 font-mono">{r.depart}</td>
+                <td className={`p-2 font-mono font-bold ${r.wait > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>{r.wait}</td>
+                <td className="p-2">
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${
+                    r.wait > 0 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
+                  }`}>{r.wait > 0 ? 'Waited' : 'Served'}</span>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-slate-700">
-        Avg Wait: <strong>{metrics.avgWait.toFixed(2)}</strong> | Server Utilization: <strong>{(metrics.util * 100).toFixed(1)}%</strong>
-      </p>
     </div>
   );
 };
@@ -323,17 +433,93 @@ export const RepairmanDemo: React.FC = () => {
   const [machines, setMachines] = useState<number>(6);
   const expectedQueue = Math.max(0, machines - repairmen * 2);
   const utilization = Math.min(0.98, machines / (repairmen * 7));
+  // Simulate machine states: working, broken, being-repaired
+  const machineStates = useMemo(() => {
+    const states: ('working'|'broken'|'repairing')[] = [];
+    const brokenCount = Math.round(machines * 0.25);
+    const repairingCount = repairmen;
+    for (let i = 0; i < machines; i++) {
+      if (i < repairingCount && i < brokenCount) states.push('repairing');
+      else if (i < brokenCount) states.push('broken');
+      else states.push('working');
+    }
+    return states;
+  }, [machines, repairmen]);
+
   return (
-    <div className={cardClass}>
-      <h4 className="text-sm font-black text-aast-navy">One/Two Repairman Approximation</h4>
-      <div className="flex gap-2">
-        <button onClick={() => setRepairmen(1)} className={`px-3 py-1 text-xs rounded ${repairmen === 1 ? 'bg-aast-navy text-white' : 'bg-slate-100'}`}>One Repairman</button>
-        <button onClick={() => setRepairmen(2)} className={`px-3 py-1 text-xs rounded ${repairmen === 2 ? 'bg-aast-navy text-white' : 'bg-slate-100'}`}>Two Repairmen</button>
-        <input type="number" min={1} value={machines} onChange={(e) => setMachines(Math.max(1, Number(e.target.value) || 1))} className="w-24 px-2 py-1 text-xs border rounded" />
+    <div className={`${cardClass} space-y-4`}>
+      <div className="flex justify-between items-center">
+        <h4 className="text-sm font-black text-aast-navy">🔧 Repairman System Simulator</h4>
+        <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold">Machine Grid</span>
       </div>
-      <p className="text-xs text-slate-700">
-        Estimated queue pressure: <strong>{expectedQueue}</strong> | Estimated utilization: <strong>{(utilization * 100).toFixed(1)}%</strong>
-      </p>
+
+      {/* Controls */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex gap-1.5">
+          <button onClick={() => setRepairmen(1)}
+            className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition ${
+              repairmen === 1 ? 'bg-aast-navy text-white border-aast-navy' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+            }`}>1 Repairman</button>
+          <button onClick={() => setRepairmen(2)}
+            className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition ${
+              repairmen === 2 ? 'bg-aast-navy text-white border-aast-navy' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+            }`}>2 Repairmen</button>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <label className="text-[10px] font-bold text-slate-500">Machines:</label>
+          <input type="number" min={1} max={20} value={machines}
+            onChange={(e) => setMachines(Math.min(20, Math.max(1, Number(e.target.value) || 1)))}
+            className="w-14 px-2 py-1 text-xs border border-slate-200 rounded focus:border-aast-gold outline-none" />
+        </div>
+      </div>
+
+      {/* Machine grid visual */}
+      <div className="bg-slate-900 rounded-xl p-4">
+        <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 mb-3">Machine Floor — {machines} Machines</p>
+        <div className="flex flex-wrap gap-2">
+          {machineStates.map((state, i) => (
+            <div key={i} className={`relative w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-all ${
+              state === 'working'   ? 'bg-emerald-500/20 border-emerald-400' :
+              state === 'repairing' ? 'bg-amber-500/20 border-amber-400 animate-pulse' :
+                                     'bg-rose-500/20 border-rose-400'
+            }`}>
+              <span className="text-base">{state === 'working' ? '⚙️' : state === 'repairing' ? '🔧' : '💥'}</span>
+              <span className="absolute -bottom-0.5 -right-0.5 text-[8px] font-bold text-slate-400">{i+1}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-4 mt-3">
+          {[{icon:'⚙️',label:'Working',col:'text-emerald-400'},{icon:'🔧',label:'Being Repaired',col:'text-amber-400'},{icon:'💥',label:'Broken/Waiting',col:'text-rose-400'}].map(l=>(
+            <div key={l.label} className="flex items-center gap-1">
+              <span className="text-xs">{l.icon}</span>
+              <span className={`text-[9px] font-bold ${l.col}`}>{l.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Metrics */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="p-3 rounded-xl bg-rose-50 border border-rose-200">
+          <p className="text-[10px] font-bold text-rose-600">Queue Pressure</p>
+          <p className="text-2xl font-black text-rose-800">{expectedQueue}</p>
+          <p className="text-[10px] text-rose-500">machines waiting for repair</p>
+        </div>
+        <div className="p-3 rounded-xl bg-amber-50 border border-amber-200">
+          <p className="text-[10px] font-bold text-amber-600">Repairman Utilization</p>
+          <p className="text-2xl font-black text-amber-800">{(utilization * 100).toFixed(1)}%</p>
+          <div className="mt-1 h-1.5 bg-amber-200 rounded-full overflow-hidden">
+            <div className="h-full bg-amber-500 rounded-full" style={{width:`${(utilization*100)}%`}} />
+          </div>
+        </div>
+      </div>
+      <div className={`p-3 rounded-lg text-xs font-bold ${
+        repairmen === 2 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
+      }`}>
+        {repairmen === 2
+          ? `✅ With 2 repairmen: queue pressure drops by ~50%. Queue = ${expectedQueue} machines waiting.`
+          : `⚠️ With 1 repairman: ${expectedQueue} machine(s) waiting. Consider adding a second repairman.`}
+      </div>
     </div>
   );
 };
@@ -341,17 +527,109 @@ export const RepairmanDemo: React.FC = () => {
 export const AssemblyLineDemo: React.FC = () => {
   const [s1, setS1] = useState<number>(3);
   const [s2, setS2] = useState<number>(5);
-  const bottleneck = s2 > s1 ? 'Station 2' : s1 > s2 ? 'Station 1' : 'Balanced';
+  const [items, setItems] = useState<number>(5);
+  const bottleneck = s2 > s1 ? 2 : s1 > s2 ? 1 : 0;
+  const throughput = 60 / Math.max(s1, s2);
+  const maxBar = Math.max(s1, s2, 1);
+
+  // Simulate blocking trace
+  const trace = useMemo(() => {
+    const rows: {item:number; b1Start:number; b1End:number; b2Start:number; b2End:number; blocked:number}[] = [];
+    let b1Free = 0; let b2Free = 0;
+    for (let i = 1; i <= items; i++) {
+      const b1Start = b1Free;
+      const b1End = b1Start + s1;
+      const b2Start = Math.max(b1End, b2Free);
+      const b2End = b2Start + s2;
+      const blocked = Math.max(0, b2Free - b1End);
+      rows.push({item:i, b1Start, b1End, b2Start, b2End, blocked});
+      b1Free = b2Start; // Bob blocked until Ray is free
+      b2Free = b2End;
+    }
+    return rows;
+  }, [s1, s2, items]);
+
+  const maxTime = trace.at(-1)?.b2End ?? 1;
+
   return (
-    <div className={cardClass}>
-      <h4 className="text-sm font-black text-aast-navy">Two-Stage Assembly Line</h4>
-      <div className="grid sm:grid-cols-2 gap-2">
-        <div><label className="text-[11px]">Station 1 time</label><input type="number" min={1} value={s1} onChange={(e) => setS1(Math.max(1, Number(e.target.value) || 1))} className="mt-1 w-full px-2 py-1 text-xs border rounded" /></div>
-        <div><label className="text-[11px]">Station 2 time</label><input type="number" min={1} value={s2} onChange={(e) => setS2(Math.max(1, Number(e.target.value) || 1))} className="mt-1 w-full px-2 py-1 text-xs border rounded" /></div>
+    <div className={`${cardClass} space-y-4`}>
+      <div className="flex justify-between items-center">
+        <h4 className="text-sm font-black text-aast-navy">🏭 Assembly Line Simulation (Bob & Ray)</h4>
+        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${
+          bottleneck === 0 ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+            : 'bg-rose-100 text-rose-700 border-rose-200'
+        }`}>{bottleneck === 0 ? 'Balanced' : `Station ${bottleneck} is Bottleneck`}</span>
       </div>
-      <p className="text-xs text-slate-700">
-        Bottleneck: <strong>{bottleneck}</strong> | Throughput bound ≈ <strong>{(60 / Math.max(s1, s2)).toFixed(2)}</strong> units/hour
-      </p>
+
+      {/* Controls */}
+      <div className="grid grid-cols-3 gap-2">
+        {[{l:'Bob (S1) time',v:s1,set:setS1},{l:'Ray (S2) time',v:s2,set:setS2},{l:'Items to produce',v:items,set:setItems,max:10}].map(f=>(
+          <div key={f.l}>
+            <label className="text-[10px] font-bold text-slate-500">{f.l}</label>
+            <input type="number" min={1} max={f.max||20} value={f.v}
+              onChange={e=>f.set(Math.min(f.max||20,Math.max(1,Number(e.target.value)||1)))}
+              className="w-full mt-0.5 px-2 py-1 text-xs border rounded focus:border-aast-gold outline-none" />
+          </div>
+        ))}
+      </div>
+
+      {/* Station rate comparison */}
+      <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 space-y-2">
+        <p className="text-[10px] font-black uppercase text-slate-500">Station Rate Comparison</p>
+        <div className="space-y-2">
+          {[{label:'Bob — Station 1',val:s1,col:'bg-sky-500'},{label:'Ray — Station 2',val:s2,col:'bg-violet-500'}].map(st=>(
+            <div key={st.label} className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-slate-600 w-28 shrink-0">{st.label}</span>
+              <div className="flex-1 h-4 bg-slate-200 rounded-full overflow-hidden">
+                <div className={`h-full rounded-full ${st.col} transition-all duration-500`}
+                  style={{width:`${(st.val/maxBar)*100}%`}} />
+              </div>
+              <span className="text-[10px] font-mono font-bold text-slate-700 w-8">{st.val}min</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Gantt trace */}
+      <div className="bg-slate-900 rounded-xl p-3 overflow-x-auto">
+        <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 mb-2">Production Gantt (Bob=blue, Ray=purple, Blocked=red)</p>
+        {trace.map(r => (
+          <div key={r.item} className="flex items-center gap-1.5 mb-1">
+            <span className="text-[9px] text-slate-400 font-mono w-6 shrink-0">I{r.item}</span>
+            <div className="relative flex-1 h-3.5 bg-slate-800 rounded">
+              {/* Bob bar */}
+              <div className="absolute top-0 bottom-0 rounded bg-sky-500"
+                style={{left:`${(r.b1Start/maxTime)*100}%`, width:`${(s1/maxTime)*100}%`}} />
+              {/* Blocked */}
+              {r.blocked > 0 && <div className="absolute top-0 bottom-0 rounded bg-rose-500/70"
+                style={{left:`${(r.b1End/maxTime)*100}%`, width:`${(r.blocked/maxTime)*100}%`}} />}
+              {/* Ray bar */}
+              <div className="absolute top-0 bottom-0 rounded bg-violet-500"
+                style={{left:`${(r.b2Start/maxTime)*100}%`, width:`${(s2/maxTime)*100}%`}} />
+            </div>
+            <span className="text-[9px] text-slate-400 font-mono w-5">{r.b2End}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Summary metrics */}
+      <div className="grid grid-cols-3 gap-2 text-center">
+        <div className="p-2 rounded-lg bg-sky-50 border border-sky-200">
+          <p className="text-[10px] text-sky-600">Throughput Bound</p>
+          <p className="font-black text-sky-800">{throughput.toFixed(2)}</p>
+          <p className="text-[9px] text-sky-400">units/hour</p>
+        </div>
+        <div className="p-2 rounded-lg bg-rose-50 border border-rose-200">
+          <p className="text-[10px] text-rose-600">Total Bob Blocked</p>
+          <p className="font-black text-rose-800">{trace.reduce((s,r)=>s+r.blocked,0)}</p>
+          <p className="text-[9px] text-rose-400">time units</p>
+        </div>
+        <div className="p-2 rounded-lg bg-violet-50 border border-violet-200">
+          <p className="text-[10px] text-violet-600">Total Makespan</p>
+          <p className="font-black text-violet-800">{maxTime}</p>
+          <p className="text-[9px] text-violet-400">time units</p>
+        </div>
+      </div>
     </div>
   );
 };
@@ -359,27 +637,110 @@ export const AssemblyLineDemo: React.FC = () => {
 export const ValidationDemo: React.FC = () => {
   const [observed, setObserved] = useState<string>('12,18,20,10');
   const [expected, setExpected] = useState<string>('15,15,15,15');
+  const [alpha, setAlpha] = useState<number>(0.05);
 
-  const chi = useMemo(() => {
+  const { chi, rows, df } = useMemo(() => {
     const o = observed.split(',').map((x) => Number(x.trim()) || 0);
     const e = expected.split(',').map((x) => Number(x.trim()) || 1);
     const n = Math.min(o.length, e.length);
     let stat = 0;
+    const dataRows: {label:string; obs:number; exp:number; contrib:number}[] = [];
     for (let i = 0; i < n; i++) {
-      stat += ((o[i] - e[i]) ** 2) / Math.max(e[i], 1e-6);
+      const contrib = ((o[i] - e[i]) ** 2) / Math.max(e[i], 1e-6);
+      stat += contrib;
+      dataRows.push({ label:`Class ${i+1}`, obs: o[i], exp: e[i], contrib });
     }
-    return stat;
+    return { chi: stat, rows: dataRows, df: n - 1 };
   }, [observed, expected]);
 
+  // Approximate critical values (chi-square table subset)
+  const criticalValues: Record<number, Record<number,number>> = {
+    1: {0.05: 3.841, 0.01: 6.635},
+    2: {0.05: 5.991, 0.01: 9.210},
+    3: {0.05: 7.815, 0.01: 11.345},
+    4: {0.05: 9.488, 0.01: 13.277},
+    5: {0.05: 11.070, 0.01: 15.086},
+  };
+  const critVal = criticalValues[Math.min(df, 5)]?.[alpha] ?? 9.49;
+  const rejected = chi > critVal;
+  const maxContrib = Math.max(...rows.map(r => r.contrib), 0.01);
+
   return (
-    <div className={cardClass}>
-      <h4 className="text-sm font-black text-aast-navy">Chi-Square / KS Validation Starter</h4>
-      <div className="grid gap-2">
-        <input value={observed} onChange={(e) => setObserved(e.target.value)} className="px-2 py-1 text-xs border rounded" />
-        <input value={expected} onChange={(e) => setExpected(e.target.value)} className="px-2 py-1 text-xs border rounded" />
+    <div className={`${cardClass} space-y-4`}>
+      <div className="flex justify-between items-center">
+        <h4 className="text-sm font-black text-aast-navy">📊 Chi-Square Goodness-of-Fit Test</h4>
+        <span className={`text-[10px] px-2 py-0.5 rounded-full font-black border ${
+          rejected ? 'bg-rose-100 text-rose-700 border-rose-300' : 'bg-emerald-100 text-emerald-700 border-emerald-300'
+        }`}>{rejected ? '❌ H₀ Rejected' : '✅ H₀ Accepted'}</span>
       </div>
-      <p className="text-xs text-slate-700">Chi-square statistic: <strong>{chi.toFixed(4)}</strong></p>
-      <p className="text-[11px] text-slate-500">Use this as teaching support; compare with critical value by degrees of freedom.</p>
+
+      <div className="grid sm:grid-cols-3 gap-2">
+        <div className="sm:col-span-1">
+          <label className="text-[10px] font-bold text-slate-500">α (significance)</label>
+          <select value={alpha} onChange={e=>setAlpha(Number(e.target.value))}
+            className="w-full mt-0.5 px-2 py-1 text-xs border rounded focus:border-aast-gold outline-none">
+            <option value={0.05}>0.05 (5%)</option>
+            <option value={0.01}>0.01 (1%)</option>
+          </select>
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-slate-500">Observed (comma-sep.)</label>
+          <input value={observed} onChange={e=>setObserved(e.target.value)}
+            className="w-full mt-0.5 px-2 py-1 text-xs border rounded focus:border-aast-gold outline-none" />
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-slate-500">Expected (comma-sep.)</label>
+          <input value={expected} onChange={e=>setExpected(e.target.value)}
+            className="w-full mt-0.5 px-2 py-1 text-xs border rounded focus:border-aast-gold outline-none" />
+        </div>
+      </div>
+
+      {/* Bar chart of observed vs expected */}
+      <div className="bg-slate-900 rounded-xl p-3">
+        <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 mb-3">Observed vs Expected — Contribution to χ²</p>
+        <div className="space-y-2">
+          {rows.map(r => (
+            <div key={r.label} className="space-y-0.5">
+              <div className="flex justify-between text-[9px] text-slate-400">
+                <span className="font-bold">{r.label}</span>
+                <span>χ² contrib: <strong className="text-amber-400">{r.contrib.toFixed(3)}</strong></span>
+              </div>
+              <div className="flex gap-1 h-3">
+                {/* Observed */}
+                <div className="h-full rounded bg-sky-500" style={{width:`${Math.min((r.obs/Math.max(...rows.map(x=>x.obs),1))*45,45)}%`}} />
+                {/* Expected */}
+                <div className="h-full rounded bg-violet-400 opacity-70" style={{width:`${Math.min((r.exp/Math.max(...rows.map(x=>x.exp),1))*45,45)}%`}} />
+                {/* Contribution */}
+                <div className="h-full rounded bg-amber-500" style={{width:`${(r.contrib/maxContrib)*10}%`, minWidth:'2px'}} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-3 mt-3">
+          {[{col:'bg-sky-500',l:'Observed'},{col:'bg-violet-400',l:'Expected'},{col:'bg-amber-500',l:'χ² Contribution'}].map(lx=>(
+            <div key={lx.l} className="flex items-center gap-1"><div className={`w-2 h-2 rounded ${lx.col}`}/><span className="text-[9px] text-slate-400">{lx.l}</span></div>
+          ))}
+        </div>
+      </div>
+
+      {/* Decision */}
+      <div className="grid grid-cols-3 gap-2 text-center">
+        <div className="p-2 rounded-lg bg-slate-50 border border-slate-200">
+          <p className="text-[10px] text-slate-500">χ² Statistic</p>
+          <p className="font-black text-slate-800 text-lg">{chi.toFixed(3)}</p>
+        </div>
+        <div className="p-2 rounded-lg bg-slate-50 border border-slate-200">
+          <p className="text-[10px] text-slate-500">Critical Value (df={df})</p>
+          <p className="font-black text-slate-800 text-lg">{critVal.toFixed(3)}</p>
+        </div>
+        <div className={`p-2 rounded-lg border font-bold ${
+          rejected ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+        }`}>
+          <p className="text-[10px]">Decision</p>
+          <p className="text-xs mt-0.5">{rejected ? 'Reject H₀' : 'Fail to Reject H₀'}</p>
+          <p className="text-[9px] mt-0.5 opacity-70">{rejected ? 'Distributions differ' : 'Good fit'}</p>
+        </div>
+      </div>
     </div>
   );
 };
@@ -638,8 +999,8 @@ export const LCGPlayground: React.FC = () => {
 };
 
 // --- MID-SQUARE PLAYGROUND ---
-export const MidSquarePlayground: React.FC = () => {
-  const [seed, setSeed] = useState<number>(2905);
+export const MidSquarePlayground: React.FC<{ defaultSeed?: number }> = ({ defaultSeed = 2041 }) => {
+  const [seed, setSeed] = useState<number>(defaultSeed);
   const [numSteps, setNumSteps] = useState<number>(15);
 
   const { trace, repeatStep, cycleLength, degenerated } = useMemo(() => {

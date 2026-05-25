@@ -52,7 +52,15 @@ export interface Exercise {
     | 'time_event_scan'
     | 'queue_trace'
     | 'inventory_trace'
-    | 'validation';
+    | 'validation'
+    | 'mid_square'
+    | 'lcg_congruential'
+    | 'discrete_mapping'
+    | 'variance_reduction'
+    | 'assembly_blocking'
+    | 'clock_scan_comparison'
+    | 'continuous_mm1'
+    | 'inverse_transform';
   title: string;
   description: string;
   hint: string;
@@ -74,5 +82,8 @@ export interface ApplicationCard {
     | 'repairman'
     | 'assembly'
     | 'validation'
-    | 'accident_football';
+    | 'accident_football'
+    | 'traffic_light'
+    | 'mid_square'
+    | 'mm1_queue';
 }

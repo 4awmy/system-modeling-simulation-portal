@@ -8,6 +8,7 @@ interface PracticeZoneProps {
   selectedExerciseId: string | null;
   setSelectedExerciseId: (id: string | null) => void;
   setExercises?: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  isInstructorMode: boolean;
 }
 
 const normalize = (val: string | number) => String(val).trim().toLowerCase();
@@ -17,6 +18,7 @@ export const PracticeZone: React.FC<PracticeZoneProps> = ({
   selectedExerciseId,
   setSelectedExerciseId,
   setExercises,
+  isInstructorMode,
 }) => {
   const currentId = selectedExerciseId || exercises[0]?.id || '';
   const exercise = useMemo(() => exercises.find((x) => x.id === currentId) ?? exercises[0], [exercises, currentId]);
@@ -213,7 +215,7 @@ export const PracticeZone: React.FC<PracticeZoneProps> = ({
           </div>
         </div>
 
-        {setExercises && (
+        {isInstructorMode && setExercises && (
           <div className="border-t pt-3 space-y-2">
             <button
               onClick={handleAddNewExercise}
@@ -395,7 +397,7 @@ export const PracticeZone: React.FC<PracticeZoneProps> = ({
                       Solved
                     </span>
                   )}
-                  {setExercises && (
+                  {isInstructorMode && setExercises && (
                     <button
                       onClick={enterEditMode}
                       className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-bold rounded-lg text-xs flex items-center gap-1 transition shadow-sm"

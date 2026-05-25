@@ -109,6 +109,7 @@ function App() {
             selectedExerciseId={selectedExerciseId}
             setSelectedExerciseId={setSelectedExerciseId}
             setExercises={setExercises}
+            isInstructorMode={isInstructorMode}
           />
         )}
 
