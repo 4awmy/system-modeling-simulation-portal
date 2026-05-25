@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { ChevronDown, ChevronRight, BookOpen } from 'lucide-react';
 import { CurriculumDemoWrapper } from './CurriculumDemoWrapper';
+import { SectionProblemSolver, hasSectionProblem } from './SectionProblemSolver';
 import type { TimelineScenario } from './TimelineDemo';
 
 /**
@@ -317,6 +318,18 @@ export const EnhancedCurriculumView: React.FC<EnhancedCurriculumViewProps> = ({
                 </button>
               </div>
             )}
+          </section>
+        )}
+
+        {/* Section Interactive Exercise */}
+        {hasSectionProblem(selected.id) && (
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="h-px flex-1 bg-slate-200" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">Section Exercise</span>
+              <div className="h-px flex-1 bg-slate-200" />
+            </div>
+            <SectionProblemSolver weekId={selected.id} />
           </section>
         )}
       </main>
